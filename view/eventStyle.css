@@ -1,0 +1,133 @@
+/*===================general sub content==================*/
+
+.requirement {
+    background-color: #EEE;
+    margin: 0 5px;
+    padding: 5px;
+    color: #222;
+}
+
+.requirement h2{
+    color: #000;
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.requirement fieldset {
+    border: solid 1px #BBB;
+    padding: 15px 10px;
+    margin-bottom: 5px;
+}
+
+.requirement p{
+    margin: 1px 0 1px 0;
+}
+
+/*=========================================================*/
+
+/*=================new Reservation=========================*/
+
+#check_in, #check_out {
+    margin: 0 60px 0 5px;
+    font-family: "Microsoft JhengHei", Calibri;
+}
+
+.requirement .radio_label {
+    padding-left: 20px;
+}
+
+.requirement .radio_group {
+    margin: 15px 0;
+}
+
+.requirement table {
+    width: auto;
+    width: inherit;
+    width: 96%;
+}
+
+.requirement td {
+    display: inline-block;
+    margin: 2px;
+    background-color: #DDDDDD;
+    padding: 5px 10px 5px 20px;
+    width: 100%;
+
+}
+
+.requirement td:hover {
+    cursor: pointer;
+    background-color: #AAA;
+}
+
+.requirement td h3, td p{
+    margin: 5px;
+}
+
+.requirement #back_btn {
+    margin-right: 150px;
+    margin-left: 13px;
+    color: #AAA;
+}
+
+.requirement #back_btn:hover {
+    color: #222222;
+    cursor: pointer;
+}
+
+.requirement .text_label {
+    display: inline-block;
+    padding-right: 10px;
+    width: 70px;
+    text-align: right;
+    margin: 5px 0;
+}
+
+.requirement #customer_name {
+    width: 429px;
+}
+
+.requirement #customer_add {
+    width: 429px;
+}
+
+.requirement #reserve_btn:hover {
+    color: darkred;
+    cursor: pointer;
+}
+/*=========================================================*/
+
+.requirement .check_label {
+    padding-right: 20px;
+}
+
+.requirement .reservation {
+    margin: 5px 5px;
+    padding: 5px 20px;
+}
+
+.requirement .reserved_res {
+    background-color: #fd7;
+}
+.requirement .reserved_res:hover {
+    background-color: #fc6;
+    cursor: pointer;
+}
+
+.requirement .in_res {
+    background-color: #faa;
+}
+.requirement .in_res:hover {
+    background-color: #e99;
+    cursor: pointer;
+}
+
+.requirement .out_res {
+    background-color: #0de;
+}
+.requirement .out_res:hover {
+    background-color: #0cd;
+    cursor: pointer;
+}
+
+/*======================reservations=======================*/

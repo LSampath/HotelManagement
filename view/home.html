@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Lagoon Dining</title>
+    <link rel="stylesheet" href="mainStyle.css">
+    <link rel="stylesheet" href="eventStyle.css">
+
+</head>
+<body>
+
+<header>
+    <h1 id="hotel_name">HOTEL LAGOON DINING</h1>
+    <hr>
+    <nav id="menu_bar">
+        <ul>
+            <li id="current_menu">Home</li>
+            <li>Bar</li>
+            <li>Kitchen</li>
+            <li>Staff</li>
+        </ul>
+    </nav>
+</header>
+
+<div id="container">
+
+    <div id="content">
+
+        <!-------------------------menu for reception------------------------>
+        <div class="event">
+            <h2>New Reservation</h2>
+            <p>Make new GRC or FIT</p>
+        </div>
+
+        <div class="event">
+            <h2>View Reservations</h2>
+            <p>View previously created reservations.</p>
+        </div>
+
+        <div class="event">
+            <h2>Rooms</h2>
+            <p>Available rooms in hotel.</p>
+        </div>
+        <!----------------------end of menu for reception------------------------>
+
+        <!--------------------------sub menu - new reservation------------------->
+        <div class="requirement">
+            <h2>New Reservation</h2>
+
+            <form action="submit">
+                <fieldset>
+                    <label for="check_in">Check-In </label>
+                    <input type="date" name="check_in" id="check_in">
+                    <label for="check_out">Check-Out </label>
+                    <input type="date" name="check_out" id="check_out">
+                    <div class="radio_group">
+                        <p>Room type</p>
+                        <label for="NONE_AC_type" class="radio_label">None AC </label>
+                        <input type="radio" name="room_type" id="NONE_AC_type">
+                        <label for="AC_type" class="radio_label">AC </label>
+                        <input type="radio" name="room_type" id="AC_type">
+                        <label for="any_type" class="radio_label">Any </label>
+                        <input type="radio" name="room_type" id="any_type">
+                    </div>
+                    <div class="radio_group">
+                        <p>Room size</p>
+                        <label for="single_size" class="radio_label">Single </label>
+                        <input type="radio" name="room_size" id="single_size">
+                        <label for="double_size" class="radio_label">Double </label>
+                        <input type="radio" name="room_size" id="double_size">
+                    </div>
+                </fieldset>
+            </form>
+            <p>Available rooms,</p>
+            <table>
+                <tr>
+                    <td>
+                        <h3># 045</h3>
+                        <p>Second floor, Sight of lagoon and temple, Double, None AC, Rs. 12 500/day</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3># 112</h3>
+                        <p>Third floor, Bath in morning light, Double, None AC, Rs. 10 500/day</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3># 005</h3>
+                        <p>Second floor, Sight of lagoon, Double, AC, , Rs. 9 000/day</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3># 045</h3>
+                        <p>First floor, Room by the elevator, Single, AC, Rs. 11 500/day</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3># 065</h3>
+                        <p>Second floor, Sight of lagoon and temple, Double, None AC, Rs. 10 500/day</p>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <!--------------------------end of sub menu - new reservation------------------------->
+
+        <!----------------------------new reservation - part II ------------------------------>
+        <div class="requirement">
+            <div>
+                <h2 id="back_btn" style="display:inline-block">Back</h2>
+                <h2 style="display:inline-block">New Reservation - Details</h2>
+            </div>
+
+            <form action="submit">
+                <fieldset>
+                    <h2># 056</h2>
+                    <p>First floor, Sight of lagoon and temple, Double bed, None AC</p>
+                    <p>Rental = Rs. 11 500/day</p>
+                    <p>Check-in : 05-01-2017 & Check-out : 09-01-2017 ( 4 days )</p>
+                </fieldset>
+
+                <fieldset>
+                    <div class="radio_group">
+                        <p><b>Meal type</b></p>
+                        <label for="stay_only_type" class="radio_label">Stay only </label>
+                        <input type="radio" name="meal_type" id="stay_only_type">
+                        <label for="breakfast_type" class="radio_label">Breakfast only </label>
+                        <input type="radio" name="meal_type" id="Breakfast_type">
+                        <label for="HB_type" class="radio_label">HB </label>
+                        <input type="radio" name="meal_type" id="HB_type">
+                        <label for="FB_type" class="radio_label">FB </label>
+                        <input type="radio" name="meal_type" id="FB_type">
+                    </div>
+                    <div class="radio_group">
+                        <p><b>Meal preference</b></p>
+                        <label for="veg_meal" class="radio_label">Vegitable </label>
+                        <input type="radio" name="meal_pre" id="veg_meal">
+                        <label for="none_veg" class="radio_label">None vegitable </label>
+                        <input type="radio" name="meal_pre" id="none_veg">
+                    </div>
+                    <hr>
+                    <p><span style="display: inline-block; width: 120px;">Room rental : </span>Rs. 46 000 ( 10 500 x 4 )</p>
+                    <p><span style="display: inline-block; width: 120px;">Meal fee: </span>Rs. 1 300 ( 325 x 4 )</p>
+                    <p><b><span style="display: inline-block; width: 120px;">Total value: </span>Rs. 47 300</b></p>
+                </fieldset>
+
+                <fieldset>
+                    <p><b>Customer details</b></p>
+                    <label for="customer_name" class="text_label">Name </label>
+                    <input type="text" name="customer_name" id="customer_name">
+                    <br>
+                    <label for="customer_ID" class="text_label">ID</label>
+                    <input type="text" name="customer_name" id="customer_ID">
+                    <label for="customer_VISA" class="text_label">VISA </label>
+                    <input type="text" name="customer_VISA" id="customer_VISA">
+                    <p style="display:inline; color:#AAA;">( Optional both )</p>
+                    <br>
+                    <label for="customer_add" class="text_label">Address </label>
+                    <input type="text" name="customer_add" id="customer_add">
+                    <br>
+                    <label for="customer_phone" class="text_label">Telephone </label>
+                    <input type="text" name="customer_telephone" id="customer_phone">
+                    <br>
+
+                    <hr>
+                    <label for="FIT_check" class="radio_label">FIT </label>
+                    <input type="radio" name="FIT/GRC" id="FIT_check">
+                    <p style="display:inline; color:#AAA;">( Check-in right now )</p>
+                    <label for="GRC_check" class="radio_label">GRC </label>
+                    <input type="radio" name="FIT/GRC" id="GRC_check">
+                    <p style="display:inline; color:#AAA;">( Only reservation )</p>
+                    <hr>
+                    <h2 id="reserve_btn">Reserve /// Check-In Room</h2>
+                </fieldset>
+            </form>
+
+        </div>
+        <!--------------------------end of new reservation - part II-------------------------->
+
+        <!-----------------------------reservations------------------------------------------->
+        <div class="requirement">
+            <h2>Reservations</h2>
+
+            <form action="">
+                <input type="checkbox" name="reserved" id="reserved">
+                <label for="reserved" class="check_label">Reserved</label>
+                <input type="checkbox" name="checked_in" id="in_state">
+                <label for="in_state" class="check_label">Checked-in</label>
+                <input type="checkbox" name="checked_out" id="out_state">
+                <label for="out_state" class="check_label">Checked-out</label>
+            </form>
+
+            <hr>
+            <p>Available reservations</p>
+
+            <div class="reservation reserved_res">
+                <p><b># 45</b> by <b>Lakmal Priyankara</b></p>
+                <p>Reserved : 09/23/2017</p>
+            </div>
+            <div class="reservation out_res">
+                <p><b># 123</b> by <b>Pubudu Kusum</b></p>
+                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017, Checked-out : 09/31/2017</p>
+            </div>
+            <div class="reservation in_res">
+                <p><b># 78</b> by <b>Lahiru Sampath</b></p>
+                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017</p>
+            </div>
+            <div class="reservation in_res">
+                <p><b># 45</b> by <b>Lakmal Priyankara</b></p>
+                <p>Reserved : 09/23/2017</p>
+            </div>
+            <div class="reservation reserved_res">
+                <p><b># 123</b> by <b>Pubudu Kusum</b></p>
+                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017, Checked-out : 09/31/2017</p>
+            </div>
+            <div class="reservation out_res">
+                <p><b># 78</b> by <b>Lahiru Sampath</b></p>
+                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017</p>
+            </div>
+            <div class="reservation out_res">
+                <p><b># 45</b> by <b>Lakmal Priyankara</b></p>
+                <p>Reserved : 09/23/2017</p>
+            </div>
+            <div class="reservation out_res">
+                <p><b># 123</b> by <b>Pubudu Kusum</b></p>
+                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017, Checked-out : 09/31/2017</p>
+            </div>
+            <div class="reservation in_res">
+                <p><b># 78</b> by <b>Lahiru Sampath</b></p>
+                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017</p>
+            </div>
+
+        </div>
+        <!-----------------------------end of reservations------------------------------------>
+
+    </div>
+
+    <aside id="right_row">
+        <h3>Notifications</h3>
+        <hr>
+        <div class="notification">
+            <p>From Reception,</p>
+            <p>Mr. Roshan Pinnaduwa checked-in to room-12 @12.30 pm of 12th of March 2017</p>
+            <div class="notify_button_box">
+                <p class="button">Confirm</p>
+                <p class="button">Reject</p>
+            </div>
+        </div>
+        <div class="notification">
+            <p>From Reception,</p>
+            <p>Mrs. Pubudu Kusum checked-out from room-21 @7.30 am of 11th of March 2017</p>
+            <div class="notify_button_box">
+                <p class="button">Confirm</p>
+            </div>
+        </div>
+    </aside>
+
+</div>
+
+<footer>
+    <a href="www.hotellogoondining.lk">Visit website</a>
+    <a href="www.facebook.com/lahiru.wer.3445454/index.html">Facebook page</a>
+    <div id="footer_bottom">
+        <p>Developed by : NewExp (2017)</p>
+    </div>
+</footer>
+
+</body>
+</html>
