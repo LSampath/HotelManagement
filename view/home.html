@@ -4,22 +4,13 @@
     <meta charset="UTF-8">
     <title>Hotel Lagoon Dining</title>
     <link rel="stylesheet" href="mainStyle.css">
-    <link rel="stylesheet" href="eventStyle.css">
+    <link rel="stylesheet" href="requirementStyle.css">
 
 </head>
 <body>
 
 <header>
     <h1 id="hotel_name">HOTEL LAGOON DINING</h1>
-    <hr>
-    <nav id="menu_bar">
-        <ul>
-            <li id="current_menu">Home</li>
-            <li>Bar</li>
-            <li>Kitchen</li>
-            <li>Staff</li>
-        </ul>
-    </nav>
 </header>
 
 <div id="container">
@@ -27,25 +18,28 @@
     <div id="content">
 
         <!-------------------------menu for reception------------------------>
-        <div class="event">
-            <h2>New Reservation</h2>
-            <p>Make new GRC or FIT</p>
-        </div>
+        <div id="reception_menu">
+            <div class="menu_item" id="new_reserve_m">
+                <h2>New Reservation</h2>
+                <p>Make new GRC or FIT</p>
+            </div>
 
-        <div class="event">
-            <h2>View Reservations</h2>
-            <p>View previously created reservations.</p>
-        </div>
+            <div class="menu_item">
+                <h2>View Reservations</h2>
+                <p>View previously created reservations.</p>
+            </div>
 
-        <div class="event">
-            <h2>Rooms</h2>
-            <p>Available rooms in hotel.</p>
+            <div class="menu_item">
+                <h2>Rooms</h2>
+                <p>Available rooms in hotel.</p>
+            </div>
         </div>
         <!----------------------end of menu for reception------------------------>
 
         <!--------------------------sub menu - new reservation------------------->
-        <div class="requirement">
-            <h2>New Reservation</h2>
+        <div class="requirement" id="new_reserve_r">
+            <h2 id="new_reserve_back" class="back_btn">Back</h2>
+            <h2 style="display:inline-block">New Reservation</h2>
 
             <form action="submit">
                 <fieldset>
@@ -55,73 +49,38 @@
                     <input type="date" name="check_out" id="check_out">
                     <div class="radio_group">
                         <p>Room type</p>
-                        <label for="NONE_AC_type" class="radio_label">None AC </label>
-                        <input type="radio" name="room_type" id="NONE_AC_type">
-                        <label for="AC_type" class="radio_label">AC </label>
-                        <input type="radio" name="room_type" id="AC_type">
                         <label for="any_type" class="radio_label">Any </label>
-                        <input type="radio" name="room_type" id="any_type">
+                        <input type="radio" name="room_type" id="any_type" value="any_type">
+                        <label for="NONE_AC_type" class="radio_label">None AC </label>
+                        <input type="radio" name="room_type" id="NONE_AC_type" value="NONE_AC_type">
+                        <label for="AC_type" class="radio_label">AC </label>
+                        <input type="radio" name="room_type" id="AC_type" value="AC_type">
                     </div>
                     <div class="radio_group">
                         <p>Room size</p>
                         <label for="single_size" class="radio_label">Single </label>
-                        <input type="radio" name="room_size" id="single_size">
-                        <label for="double_size" class="radio_label">Double </label>
-                        <input type="radio" name="room_size" id="double_size">
+                        <input type="radio" name="room_size" id="single_size" value="single_size">
+                        <label  class="radio_label">Double </label>
+                        <input type="radio" name="room_size" id="double_size" value="double_size">
                     </div>
                 </fieldset>
             </form>
             <p>Available rooms,</p>
-            <table>
-                <tr>
-                    <td>
-                        <h3># 045</h3>
-                        <p>Second floor, Sight of lagoon and temple, Double, None AC, Rs. 12 500/day</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h3># 112</h3>
-                        <p>Third floor, Bath in morning light, Double, None AC, Rs. 10 500/day</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h3># 005</h3>
-                        <p>Second floor, Sight of lagoon, Double, AC, , Rs. 9 000/day</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h3># 045</h3>
-                        <p>First floor, Room by the elevator, Single, AC, Rs. 11 500/day</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h3># 065</h3>
-                        <p>Second floor, Sight of lagoon and temple, Double, None AC, Rs. 10 500/day</p>
-                    </td>
-                </tr>
-            </table>
+            <table> </table>
 
         </div>
         <!--------------------------end of sub menu - new reservation------------------------->
 
         <!----------------------------new reservation - part II ------------------------------>
-        <div class="requirement">
+        <div class="requirement" id="reserve_room_r">
             <div>
-                <h2 id="back_btn" style="display:inline-block">Back</h2>
+                <h2 class="back_btn">Back</h2>
                 <h2 style="display:inline-block">New Reservation - Details</h2>
             </div>
 
+            <div id="reserve_detail"></div>
+
             <form action="submit">
-                <fieldset>
-                    <h2># 056</h2>
-                    <p>First floor, Sight of lagoon and temple, Double bed, None AC</p>
-                    <p>Rental = Rs. 11 500/day</p>
-                    <p>Check-in : 05-01-2017 & Check-out : 09-01-2017 ( 4 days )</p>
-                </fieldset>
 
                 <fieldset>
                     <div class="radio_group">
@@ -137,15 +96,14 @@
                     </div>
                     <div class="radio_group">
                         <p><b>Meal preference</b></p>
-                        <label for="veg_meal" class="radio_label">Vegitable </label>
-                        <input type="radio" name="meal_pre" id="veg_meal">
                         <label for="none_veg" class="radio_label">None vegitable </label>
                         <input type="radio" name="meal_pre" id="none_veg">
+                        <label for="veg_meal" class="radio_label">Vegitable </label>
+                        <input type="radio" name="meal_pre" id="veg_meal">
                     </div>
                     <hr>
-                    <p><span style="display: inline-block; width: 120px;">Room rental : </span>Rs. 46 000 ( 10 500 x 4 )</p>
-                    <p><span style="display: inline-block; width: 120px;">Meal fee: </span>Rs. 1 300 ( 325 x 4 )</p>
-                    <p><b><span style="display: inline-block; width: 120px;">Total value: </span>Rs. 47 300</b></p>
+                    <div id="meal_fee_div"></div>
+
                 </fieldset>
 
                 <fieldset>
@@ -167,14 +125,16 @@
                     <br>
 
                     <hr>
-                    <label for="FIT_check" class="radio_label">FIT </label>
-                    <input type="radio" name="FIT/GRC" id="FIT_check">
-                    <p style="display:inline; color:#AAA;">( Check-in right now )</p>
                     <label for="GRC_check" class="radio_label">GRC </label>
                     <input type="radio" name="FIT/GRC" id="GRC_check">
                     <p style="display:inline; color:#AAA;">( Only reservation )</p>
+
+                    <label for="FIT_check" class="radio_label">FIT </label>
+                    <input type="radio" name="FIT/GRC" id="FIT_check">
+                    <p style="display:inline; color:#AAA;">( Check-in right now )</p>
+
                     <hr>
-                    <h2 id="reserve_btn">Reserve /// Check-In Room</h2>
+                    <h2 id="reserve_btn">Reserve This Room</h2>
                 </fieldset>
             </form>
 
@@ -268,6 +228,9 @@
         <p>Developed by : NewExp (2017)</p>
     </div>
 </footer>
+
+<script src="../library/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../script/homeScript.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

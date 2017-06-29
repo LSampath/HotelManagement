@@ -105,16 +105,20 @@ footer a {
     padding: 0;
 }
 
-.event {
+.menu_item {
     background-color: #EEE;
     margin: 10px;
     padding: 1px 30px;
     color: #222;
 }
 
-.event:hover {
+.menu_item:hover {
     cursor: pointer;
     background-color: #CCC;
+}
+
+.requirement {
+    display: none;
 }
 
 /*======================================================*/

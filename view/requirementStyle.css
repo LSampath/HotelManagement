@@ -52,7 +52,6 @@
     background-color: #DDDDDD;
     padding: 5px 10px 5px 20px;
     width: 100%;
-
 }
 
 .requirement td:hover {
@@ -64,13 +63,15 @@
     margin: 5px;
 }
 
-.requirement #back_btn {
+
+.requirement .back_btn {
     margin-right: 150px;
     margin-left: 13px;
     color: #AAA;
+    display: inline-block;
 }
 
-.requirement #back_btn:hover {
+.requirement .back_btn:hover {
     color: #222222;
     cursor: pointer;
 }
@@ -95,6 +96,15 @@
     color: darkred;
     cursor: pointer;
 }
+
+.requirement #reserve_detail {
+    margin: 10px 2px;
+    border: solid lightgray 1px;
+    padding: 10px;
+    font-weight: bold;
+    line-height: 170%;
+}
+
 /*=========================================================*/
 
 .requirement .check_label {
