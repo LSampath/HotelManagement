@@ -24,17 +24,18 @@
                 <p>Make new GRC or FIT</p>
             </div>
 
-            <div class="menu_item">
+            <div class="menu_item" id="current_reserve_m">
                 <h2>View Reservations</h2>
                 <p>View previously created reservations.</p>
             </div>
 
-            <div class="menu_item">
+            <div class="menu_item" id="rooms_m">
                 <h2>Rooms</h2>
                 <p>Available rooms in hotel.</p>
             </div>
         </div>
         <!----------------------end of menu for reception------------------------>
+
 
         <!--------------------------sub menu - new reservation------------------->
         <div class="requirement" id="new_reserve_r">
@@ -70,6 +71,7 @@
 
         </div>
         <!--------------------------end of sub menu - new reservation------------------------->
+
 
         <!----------------------------new reservation - part II ------------------------------>
         <div class="requirement" id="reserve_room_r">
@@ -112,7 +114,7 @@
                     <input type="text" name="customer_name" id="customer_name">
                     <br>
                     <label for="customer_ID" class="text_label">ID</label>
-                    <input type="text" name="customer_name" id="customer_ID">
+                    <input type="text" name="customer_ID" id="customer_ID">
                     <label for="customer_VISA" class="text_label">VISA </label>
                     <input type="text" name="customer_VISA" id="customer_VISA">
                     <p style="display:inline; color:#AAA;">( Optional both )</p>
@@ -134,68 +136,128 @@
                     <p style="display:inline; color:#AAA;">( Check-in right now )</p>
 
                     <hr>
-                    <h2 id="reserve_btn">Reserve This Room</h2>
+                    <div id = "payment_reserve"></div>
+
+
+                    <h2 id="reserve_btn"></h2>
                 </fieldset>
             </form>
 
         </div>
         <!--------------------------end of new reservation - part II-------------------------->
 
-        <!-----------------------------reservations------------------------------------------->
-        <div class="requirement">
-            <h2>Reservations</h2>
 
-            <form action="">
+        <!-----------------------------reservations------------------------------------------->
+        <div class="requirement" id="current_reserve_r">
+            <div>
+                <h2 class="back_btn">Back</h2>
+                <h2 style="display:inline-block">Reservations</h2>
+                <hr>
+            </div>
+
+            <form>
                 <input type="checkbox" name="reserved" id="reserved">
                 <label for="reserved" class="check_label">Reserved</label>
                 <input type="checkbox" name="checked_in" id="in_state">
                 <label for="in_state" class="check_label">Checked-in</label>
                 <input type="checkbox" name="checked_out" id="out_state">
                 <label for="out_state" class="check_label">Checked-out</label>
+                <div id="search_room">
+                    <input type="text" name="room_no">
+                    <label id="search_btn">Search</label>
+                    <label style="color: gray;">from room # </label>
+                </div>
             </form>
 
             <hr>
             <p>Available reservations</p>
 
-            <div class="reservation reserved_res">
-                <p><b># 45</b> by <b>Lakmal Priyankara</b></p>
-                <p>Reserved : 09/23/2017</p>
-            </div>
-            <div class="reservation out_res">
-                <p><b># 123</b> by <b>Pubudu Kusum</b></p>
-                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017, Checked-out : 09/31/2017</p>
-            </div>
-            <div class="reservation in_res">
-                <p><b># 78</b> by <b>Lahiru Sampath</b></p>
-                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017</p>
-            </div>
-            <div class="reservation in_res">
-                <p><b># 45</b> by <b>Lakmal Priyankara</b></p>
-                <p>Reserved : 09/23/2017</p>
-            </div>
-            <div class="reservation reserved_res">
-                <p><b># 123</b> by <b>Pubudu Kusum</b></p>
-                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017, Checked-out : 09/31/2017</p>
-            </div>
-            <div class="reservation out_res">
-                <p><b># 78</b> by <b>Lahiru Sampath</b></p>
-                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017</p>
-            </div>
-            <div class="reservation out_res">
-                <p><b># 45</b> by <b>Lakmal Priyankara</b></p>
-                <p>Reserved : 09/23/2017</p>
-            </div>
-            <div class="reservation out_res">
-                <p><b># 123</b> by <b>Pubudu Kusum</b></p>
-                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017, Checked-out : 09/31/2017</p>
-            </div>
-            <div class="reservation in_res">
-                <p><b># 78</b> by <b>Lahiru Sampath</b></p>
-                <p>Reserved : 09/23/2017, Checked-in : 09/25/2017</p>
-            </div>
+            <div id="reserve_container"></div>
 
         </div>
         <!-----------------------------end of reservations------------------------------------>
+
+
+        <!----------------------------reservations part II------------------------------------->
+        <div class="requirement" id="manage_reserve_r">
+            <div>
+                <h2 class="back_btn">Back</h2>
+                <h2 style="display:inline-block">Manage Reservation</h2>
+                <hr>
+            </div>
+
+            <h3># 34</h3>
+            <div id="room_des"></div>
+            <hr>
+
+            <form>
+                <br>
+                <div>
+                    <p>Meal type</p>
+                    <label for="stay_only_type" class="radio_label">Stay only </label>
+                    <input type="radio" name="meal_type" id="stay_only">
+                    <label for="breakfast_type" class="radio_label">Breakfast only </label>
+                    <input type="radio" name="meal_type" id="Breakfast">
+                    <label for="HB_type" class="radio_label">HB </label>
+                    <input type="radio" name="meal_type" id="HB">
+                    <label for="FB_type" class="radio_label">FB </label>
+                    <input type="radio" name="meal_type" id="FB">
+                </div>
+                <br>
+                <div>
+                    <p>Meal preference</p>
+                    <label for="none_veg" class="radio_label">None vegitable </label>
+                    <input type="radio" name="meal_pre" id="none">
+                    <label for="veg_meal" class="radio_label">Vegitable </label>
+                    <input type="radio" name="meal_pre" id="veg">
+                </div>
+                <br>
+
+                <label>Check-In </label>
+                <input type="date" name="check_in">
+                <label>Check-Out </label>
+                <input type="date" name="check_out">
+                <br>
+                <br>
+
+                <p>Reserved by,</p>
+                <br>
+                <label class="text_label">Name </label>
+                <input type="text" name="customer_name">
+                <br>
+                <label class="text_label">ID</label>
+                <input type="text" name="customer_ID">
+                <label class="text_label">VISA </label>
+                <input type="text" name="customer_VISA">
+                <p style="display:inline; color:#AAA;">( Optional both )</p>
+                <br>
+                <label class="text_label">Address </label>
+                <input type="text" name="customer_add">
+                <br>
+                <label class="text_label">Telephone </label>
+                <input type="text" name="customer_telephone">
+                <br>
+                <hr>
+
+                <div id="payment_div">
+                    <p><span class='payment'>Total Fee </span> Rs. <span id="total_value">00</span></p>
+                    <p><span class='payment'>Payed value </span> Rs. <span id='payed_value'>00</span></p>
+                    <p><b><span class='payment'>Balance </span> Rs. <span id="balance_value">00</span></b></p>
+                    <br>
+                    <label class='payment'>Payment</label>
+                    <input  type='text'>
+                    <label style='padding-left: 10px;' id='make_payment'><b>Pay</b></label>
+                    <hr>
+
+                    <h2 id='save_reserve'>Save & Exit</h2>
+                    <h2 id='next_status'>Reserve</h2>
+                </div>
+
+
+            </form>
+        </div>
+        <!-----------------------------end of reservations part II------------------------------->
+
 
     </div>
 

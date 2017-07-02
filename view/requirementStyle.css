@@ -79,16 +79,21 @@
 .requirement .text_label {
     display: inline-block;
     padding-right: 10px;
-    width: 70px;
+    width: 100px;
     text-align: right;
     margin: 5px 0;
 }
 
-.requirement #customer_name {
+.requirement input[type='text'] {
+    font-weight: bold;
+    font-family: "Microsoft JhengHei", Calibri;
+}
+
+.requirement input[name='customer_name'] {
     width: 429px;
 }
 
-.requirement #customer_add {
+.requirement input[name='customer_add'] {
     width: 429px;
 }
 
@@ -105,15 +110,15 @@
     line-height: 170%;
 }
 
-/*=========================================================*/
+/*===============current reservations===================*/
 
 .requirement .check_label {
     padding-right: 20px;
 }
 
 .requirement .reservation {
-    margin: 5px 5px;
-    padding: 5px 20px;
+    margin: 8px 5px;
+    padding: 10px 20px;
 }
 
 .requirement .reserved_res {
@@ -140,4 +145,48 @@
     cursor: pointer;
 }
 
+.requirement #search_room {
+    margin: 10px;
+}
+
+.requirement #search_btn {
+    font-weight: bold;
+}
+.requirement #search_btn:hover {
+    cursor: pointer;
+}
+
+.requirement input[type='date'] {
+    margin: 10px 60px 10px 10px;
+    font-family: "Microsoft JhengHei", Calibri;
+}
+
+#manage_reserve_r .payment {
+    display: inline-block;
+    width: 150px;
+}
+
+.requirement #make_payment:hover {
+    cursor: pointer;
+    color: darkred;
+}
+
+#manage_reserve_r #next_status {
+    display: inline-block;
+    margin: 10px;
+    width: 20%;
+    text-align: center;
+}
+#manage_reserve_r #save_reserve {
+    display: inline-block;
+    margin: 10px;
+    width: 30%;
+    text-align: right;
+}
+#next_status:hover, #save_reserve:hover {
+    color: darkred;
+    cursor: pointer;
+}
+
 /*======================reservations=======================*/
+
