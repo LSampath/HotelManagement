@@ -258,6 +258,35 @@
         </div>
         <!-----------------------------end of reservations part II------------------------------->
 
+        <!--------------------------------rooms-------------------------------------------------->
+        <div class="requirement" id="rooms_r">
+            <div>
+                <h2 class="back_btn">Back</h2>
+                <h2 style="display:inline-block">Rooms</h2>
+                <hr>
+            </div>
+            <form>
+                <div class="radio_group">
+                    <p>Room type</p>
+                    <label for="any_type" class="radio_label">Any </label>
+                    <input type="radio" name="room_type" id="any_room" value="any_type">
+                    <label for="NONE_AC_type" class="radio_label">None AC </label>
+                    <input type="radio" name="room_type" id="NONE_AC_room" value="NONE_AC_type">
+                    <label for="AC_type" class="radio_label">AC </label>
+                    <input type="radio" name="room_type" id="AC_room" value="AC_type">
+                </div>
+                <div class="radio_group">
+                    <p>Room size</p>
+                    <label for="single_size" class="radio_label">Single </label>
+                    <input type="radio" name="room_size" id="single_room" value="single_size">
+                    <label  class="radio_label">Double </label>
+                    <input type="radio" name="room_size" id="double_room" value="double_size">
+                </div>
+            </form>
+            <div id="room_list"></div>
+        </div>
+        <!-----------------------------------end of rooms----------------------------------------->
+
 
     </div>
 
@@ -291,8 +320,9 @@
     </div>
 </footer>
 
+<script src="../script/general.js" type="text/javascript" charset="utf-8"></script>
 <script src="../library/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../script/homeScript.js" type="text/javascript" charset="utf-8"></script>
+<script src="../script/requirementScript.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

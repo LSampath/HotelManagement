@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Lagoon Dining</title>
+    <link rel="stylesheet" href="mainStyle.css">
+    <link rel="stylesheet" href="customerStyle.css">
+</head>
+<body>
+
+<header>
+    <p id="hotel_name">HOTEL LAGOON DINING</p>
+    <p><span id="log_in">Log In</span></p>
+</header>
+
+<div id="container">
+
+    <p id="quote">Hotel Lagoon Dining offers 5 star luxury accommodation among Sri Lanka resorts with breathtaking views of the Indian Ocean.
+        Nestled amongst the wild coconut groves of Moratuwa, Lagoon Hotel is truly a laid back paradise.
+        The cool palms cast their shadow over the blue water, lit only by the last streaks of the setting sun,
+        retreat from reality and surrender to the sublime serenity of the tropical island.</p>
+
+    <p id="hotel_pic"><img src="lagoon-sunset.jpg" alt="Hotel Picture"></p>
+
+    <div id="facility_div">
+        <h2>OUR FACILITIES</h2>
+        <div class="facilities">
+            <h3>Water sports - Jet Ski, Boating</h3>
+            <p>Our in-house jet ski and the boats will make your stay in the hotel more memorable.</p>
+            <p>Availability of high quality safety gears will provide fearless water sport experience</p>
+        </div>
+        <div class="facilities">
+            <h3>Pool Parlour</h3>
+            <p>Afternoon hangouts with friends will not be boring again</p>
+        </div>
+        <div class="facilities">
+            <h3>Weddings and Special Occasions</h3>
+            <p>Hotel Lagoon Dining is the best place for your weddings and other special events like,</p>
+            <p> parties, product launches, press conferences etc.</p>
+        </div>
+    </div>
+
+    <div id="make_reservation">
+        <p>Make your reservation from below link, or contact one of our executives to make your reservation</p>
+        <p>Contact Tel: +94-11-2651700 Fax: +94-2651701</p>
+        <h2>RESERVE</h2>
+    </div>
+
+</div>
+
+<div id="reservation">
+    <div class="title_div">
+        <h2 class="back_btn">Back</h2>
+        <h2>MAKE A RESERVATION</h2>
+    </div>
+
+    <form>
+        <label for="check_in">Check-In </label>
+        <input type="date" name="check_in" id="check_in">
+        <label for="check_out">Check-Out </label>
+        <input type="date" name="check_out" id="check_out">
+        <div class="radio_group">
+            <p>Room type</p>
+            <label for="any_type" class="radio_label">Any </label>
+            <input type="radio" name="room_type" id="any_type" value="any_type">
+            <label for="NONE_AC_type" class="radio_label">None AC </label>
+            <input type="radio" name="room_type" id="NONE_AC_type" value="NONE_AC_type">
+            <label for="AC_type" class="radio_label">AC </label>
+            <input type="radio" name="room_type" id="AC_type" value="AC_type">
+        </div>
+        <div class="radio_group">
+            <p>Room size</p>
+            <label for="single_size" class="radio_label">Single </label>
+            <input type="radio" name="room_size" id="single_size" value="single_size">
+            <label  class="radio_label">Double </label>
+            <input type="radio" name="room_size" id="double_size" value="double_size">
+        </div>
+    </form>
+
+    <div id="available_rooms">
+        <p>Available Rooms</p>
+        <div class="room">
+            <h3># 45</h3>
+            <p>AC ,Aklfj cmskdfjd ckgmfdslkfm,d fkdsjfldv.d.dfdl.df,d d, kfsdfkd</p>
+        </div>
+    </div>
+</div>
+
+<div id="reserve_detail">
+    <div class="title_div">
+        <h2 class="back_btn">Back</h2>
+        <h2>RESERVATION DETAILS</h2>
+    </div>
+
+    <form>
+        <div id="room_detail">
+            <h3 id="room_no"># 45</h3>
+            <p></p>
+
+            <label for="check_in">Check-In </label>
+            <input type="date" name="check_in">
+            <label for="check_out">Check-Out </label>
+            <input type="date" name="check_out">
+        </div>
+        <hr>
+        <div class="radio_group">
+            <p><b>Meal type</b></p>
+            <label for="stay_only_type" class="radio_label">Stay only </label>
+            <input type="radio" name="meal_type" id="stay_only_type">
+            <label for="breakfast_type" class="radio_label">Breakfast only </label>
+            <input type="radio" name="meal_type" id="Breakfast_type">
+            <label for="HB_type" class="radio_label">HB </label>
+            <input type="radio" name="meal_type" id="HB_type">
+            <label for="FB_type" class="radio_label">FB </label>
+            <input type="radio" name="meal_type" id="FB_type">
+        </div>
+        <div class="radio_group">
+            <p><b>Meal preference</b></p>
+            <label for="none_veg" class="radio_label">None vegitable </label>
+            <input type="radio" name="meal_pre" id="none_veg">
+            <label for="veg_meal" class="radio_label">Vegitable </label>
+            <input type="radio" name="meal_pre" id="veg_meal">
+        </div>
+        <hr>
+        <div id="meal_fee_div"></div>
+        <hr>
+
+        <p><b>Customer details</b></p>
+        <label for="customer_name" class="text_label">Name </label>
+        <input type="text" name="customer_name" id="customer_name">
+        <br>
+        <label for="customer_ID" class="text_label">ID</label>
+        <input type="text" name="customer_ID" id="customer_ID">
+        <label for="customer_VISA" class="text_label">VISA </label>
+        <input type="text" name="customer_VISA" id="customer_VISA">
+        <p style="display:inline; color:#777;">( Optional both )</p>
+        <br>
+        <label for="customer_add" class="text_label">Address </label>
+        <input type="text" name="customer_add" id="customer_add">
+        <br>
+        <label for="customer_phone" class="text_label">Telephone </label>
+        <input type="text" name="customer_telephone" id="customer_phone">
+        <br>
+        <h2 id="reserve_btn">RESERVE</h2>
+    </form>
+</div>
+
+<footer>
+    <a href="www.hotellogoondining.lk">Visit website</a>
+    <a href="www.facebook.com/lahiru.wer.3445454/index.html">Facebook page</a>
+    <div id="footer_bottom">
+        <p>#556/E/1, De Soyza road, Molpe, Moratuwa, Sri Lanka Tel: +94-11-2651700, Fax: +94-2651701</p>
+        <p>Developed by : NewExp (2017)</p>
+    </div>
+</footer>
+
+<script src="../script/general.js" type="text/javascript" charset="utf-8"></script>
+<script src="../library/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../script/customerScript.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+</html>
