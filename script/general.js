@@ -47,6 +47,13 @@ function Payment(paymentID, date, value) {
     this.value = value;
 }
 
+function User(name, password, position) {
+    this.name = name;
+    this.password = password;
+    this.position = position;
+}
+
+
 
 function stringToDate(dateString) {
     var dateArray = dateString.split("-");
@@ -94,6 +101,37 @@ function getMeal(mealID) {
     var pre = "Veg";
     var type = "Full Bread";
     return new Meal(mealID, pre, type);
+}
+
+// function getUser(name, pass) {
+//     var preStatement = "?q=getuser&name="+name+"&pass="+pass;
+//     var file = "general.php";
+//
+//     var result = connectDB(file, preStatement);
+//     return result;
+// }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function connectDB(file, preStatement, callback) {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        xmlhttp=new XMLHttpRequest();
+    } else {
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            callback(xmlhttp.responseText);
+        }else {
+            // alert(xmlhttp.readyState + " " + xmlhttp.status+ " ");
+        }
+    }
+    var path = "http://localhost/HotelManagement/php/" + file + preStatement;
+    xmlhttp.open("GET",path,true);
+
+    xmlhttp.send();
 }
 
 

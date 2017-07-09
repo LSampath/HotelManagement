@@ -24,7 +24,24 @@ function initReservations(reservation) {
     $("#check_in").val(checkIn);
     $("#check_out").val(checkOut);
 
+    $("#check_in").attr("min",dateToString(new Date()));
+    validateDates();
+
     loadAvailableRooms();
+}
+
+
+function validateDates() {
+    var checkIn = new Date($("#check_in").val());
+    var checkOut = new Date($("#check_out").val());
+
+    var checkInString = dateToString(checkIn);
+    $("#new_reserve_r input[name='check_out']").attr("min", checkInString);
+
+
+    if(checkIn.getTime() >= checkOut.getTime()){
+        $("#new_reserve_r input[name='check_out']").val(checkInString);
+    }
 }
 
 
