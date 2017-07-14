@@ -183,9 +183,19 @@
     width: 30%;
     text-align: right;
 }
-#next_status:hover, #save_reserve:hover {
+#manage_reserve_r #cancel_reserve {
+    display: inline-block;
+    margin: 10px;
+    width: 20%;
+    text-align: right;
+}
+#next_status:hover, #save_reserve:hover, #cancel_reserve:hover {
     color: darkred;
     cursor: pointer;
+}
+
+#cancel_reserve {
+    color: blue;
 }
 
 /*======================reservations=======================*/

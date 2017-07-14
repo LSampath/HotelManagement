@@ -74,17 +74,18 @@ function initNewReservation() {
 
 
 function validateDates() {
-    $("input[name='check_in']").attr("min",dateToString(new Date()));
-    $("input[name='check_out']").attr("min",dateToString(new Date()));
+    $("#new_reserve_r input[name='check_in']").attr("min",dateToString(new Date()));
 
     var checkIn = new Date($("input[name='check_in']").val());
-    var checkOut = new Date($("input[name='check_out']").val());
+    var checkOut = new Date();
+    checkOut.setDate(checkIn.getDate()+1);
 
-    var checkInString = dateToString(checkIn);
-    $("input[name='check_out']").attr("min", checkInString);
+    var nextDayString = dateToString(checkOut);
+    $("input[name='check_out']").attr("min", nextDayString);
+    $("input[name='check_out']").val(nextDayString);
 
     if(checkIn.getTime() >= checkOut.getTime()){
-        $("input[name='check_out']").val(checkInString);
+        $("input[name='check_out']").val(nextDayString);
     }
 }
 
@@ -96,13 +97,14 @@ function loadAvailableRooms() {
 
     var checkIn = dateToString(new Date($("#new_reserve_r #check_in").val()));
     var checkOut =dateToString(new Date($("#new_reserve_r #check_out").val()));
+
     var type = $("#new_reserve_r input[name='room_type']:checked").attr('id');
     if( type == "any_type" ) {
         type = "any";
     }else if( type == "AC_type" ) {
-        type = "FALSE";
+        type = "1";
     }else {
-         type = "TRUE";
+         type = "0";
     }
     var size = $("#new_reserve_r input[name='room_size']:checked").attr('id');
     if(size == "single_size") {
@@ -113,10 +115,11 @@ function loadAvailableRooms() {
 
     var preStatement = "?q=getrooms&checkin="+checkIn+"&checkout="+checkOut+"&type="+type+"&size="+size;
     connectDB("reception.php", preStatement, function(result) {
+        if(result == "[]") return;
 
         var rooms = [];
         rooms = result.match(/[^{\}]+(?=})/g);
-        for(var i=0; i<rooms.length; i++) {
+        for(var i=1; i<rooms.length; i++) {
             var data =[];
             data = rooms[i].match(/:"[\w\d]+"/gi);
             for(var j=0; j<rooms[i].length; j++) {
@@ -130,54 +133,35 @@ function loadAvailableRooms() {
             availableRooms.push(room);
         }
 
-        var preStatement = "?q=getAvailableRooms&type="+type+"&size="+size;
-        connectDB("reception.php", preStatement, function(result) {
-
-            var rooms = [];
-            rooms = result.match(/[^{\}]+(?=})/g);
-            for (var i = 0; i < rooms.length; i++) {
-                var data = [];
-                data = rooms[i].match(/:"[\w\d]+"/gi);
-                for (var j = 0; j < rooms[i].length; j++) {
-                    if (data[j] == undefined) {
-                        data[j] = "";
-                    } else {
-                        data[j] = data[j].substring(2, data[j].length - 1);
-                    }
-                }
-                var room = new Room(data[0], data[1], data[2], data[3], data[4], data[5]);
-                availableRooms.push(room);
+        for (var i=0; i<availableRooms.length; i++) {
+            var room = availableRooms[i];
+            var AC = "AC";
+            if(room.AC == false) {
+                AC = "None AC";
             }
-
-            for (var i=0; i<availableRooms.length; i++) {
-                var room = availableRooms[i];
-                var AC = "AC";
-                if(room.AC == false) {
-                    AC = "None AC";
-                }
-                var floor = "Ground floor";
-                if(room.floor != 0){
-                    floor = "Floor "+"#"+room.floor;
-                }
-                var num = room.number;
-                var details = "Rs. "+room.prize+"/day"+", "+room.description+", "+room.size+", "+AC+", "+floor;
-                $("#new_reserve_r table").append("<tr><td class='available_room'><h3># "+num+"</h3><p>"+details+"</p></td><tr/>");
+            var floor = "Ground floor";
+            if(room.floor != 0){
+                floor = "Floor "+"#"+room.floor;
             }
+            var num = room.number;
+            var details = "Rs. "+room.prize+"/day"+", "+room.description+", "+room.size+", "+AC+", "+floor;
+            $("#new_reserve_r table").append("<tr><td class='available_room'><h3># "+num+"</h3><p>"+details+"</p></td><tr/>");
+        }
 
-            $("#new_reserve_r .available_room").click(function() {
-                var selectedRoom = availableRooms[($(this).parent("tr").index())/2];
-                var checkIn = dateToString(new Date($("#new_reserve_r #check_in").val()));
-                var checkOut = dateToString(new Date($("#new_reserve_r #check_out").val()));
+        $("#new_reserve_r .available_room").click(function() {
+            var selectedRoom = availableRooms[($(this).parent("tr").index()) / 2];
+            var checkIn = dateToString(new Date($("#new_reserve_r #check_in").val()));
+            var checkOut = dateToString(new Date($("#new_reserve_r #check_out").val()));
 
-                var reservation = new Reservation("R0000", selectedRoom.number, checkIn, checkOut);
+            var reservation = new Reservation("R0000", selectedRoom.number, checkIn, checkOut);
 
-                initReserveRoom(reservation);
+            initReserveRoom(reservation);
 
-                var reserveRoom = $("#reserve_room_r");
-                $("#new_reserve_r").hide();
-                reserveRoom.show();
-            });
+            var reserveRoom = $("#reserve_room_r");
+            $("#new_reserve_r").hide();
+            reserveRoom.show();
         });
+
     });
 }
 
@@ -250,6 +234,13 @@ function initReserveRoom(reservation) {
 
     calculateFee();
 }
+
+$("#reserve_room_r #customer_phone").keyup(function() {
+    var text = $("#customer_phone").val();
+    if(isNaN(text.charAt(text.length-1))) {
+        $("#customer_phone").val(text.substr(0,text.length-1));
+    }
+});
 
 
 function calculateFee() {
@@ -340,16 +331,27 @@ $("#reserve_room_r input[name='FIT/GRC']").change(function() {
         $("#reserve_room_r #reserve_btn").click(reserveRoom);
     }else {
         $("#payment_reserve").append("<label for='payed_value' class='text_label'>Payed Rs.  </label>");
-        $("#payment_reserve").append("<input type='text' id='payed_value'>");
+        $("#payment_reserve").append("<input type='text' id='payed_value' autocomplete='off'>");
         $("#payment_reserve").append("<br>");
         $("#payment_reserve").append("<label class='text_label'>Balance Rs.  </label>");
         $("#payment_reserve").append("<p style='display: inline-block' id='balance_value'><b>"+currentReserve.totalFee+"</b></p>");
 
-        $("#payment_reserve #payed_value").keypress(function() {
+        $("#payment_reserve #payed_value").keyup(function() {
+            var text = $("#payed_value").val();
+            if(isNaN(text.charAt(text.length-1))) {
+                $("#payed_value").val(text.substr(0,text.length-1));
+            }
+
             var payedValue = parseInt($("#payment_reserve #payed_value").val());
-            $("#payment_reserve #balance_value b").text(currentReserve.totalFee - payedValue);
-            currentReserve.balance = currentReserve.totalFee - payedValue;
-            //.....................................validate balance........................................................................................................
+            if(payedValue<0 || payedValue>currentReserve.balance){
+
+                $("#payment_reserve #payed_value").val("");
+                currentReserve.balance = currentReserve.totalFee;
+                $("#payment_reserve #balance_value").text(currentReserve.totalFee);
+            }else{
+                $("#payment_reserve #balance_value").text(currentReserve.totalFee - payedValue);
+                currentReserve.balance = currentReserve.totalFee - payedValue;
+            }
         });
 
         $("#reserve_room_r #reserve_btn").text("Check-In To Room");
@@ -361,53 +363,75 @@ $("#reserve_room_r input[name='FIT/GRC']").change(function() {
 
 function reserveRoom() {
     if(validateCustomerDetail()) {
-        var name = $("#reserve_room_r input[id='customer_name']").val().split(" ").join("+");
-        var ID = $("#reserve_room_r input[id='customer_ID']").val().split(" ").join("+");
-        var VISA = $("#reserve_room_r input[id='customer_VISA']").val().split(" ").join("+");
-        var phone = $("#reserve_room_r input[id='customer_phone']").val().split(", ").join("+");
-        var address = $("#reserve_room_r input[id='customer_add']").val().split(" ").join("+");
+        var name = $("#reserve_room_r input[id='customer_name']").val().slice(0,99).split(" ").join("+");
+        var ID = $("#reserve_room_r input[id='customer_ID']").val().slice(0,10).split(" ").join("+");
+        var VISA = $("#reserve_room_r input[id='customer_VISA']").val().slice(0,15).split(" ").join("+");
+        var phone = $("#reserve_room_r input[id='customer_phone']").val().slice(0,10).split(", ").join("+");
+        var address = $("#reserve_room_r input[id='customer_add']").val().slice(0,99).split(" ").join("+");
+
+        var mealtype = $("#reserve_room_r input[name='meal_type']:checked").attr("id");
+        var mealpre = $("#reserve_room_r input[name='meal_pre']:checked").attr("id");
+        mealtype = mealtype.substr(0,mealtype.length-5);
+        if(mealtype == "stay_only") {
+            mealtype = "Stay_only";
+        }
+        if(mealpre == "none") {
+            mealpre = 'none_veg';
+        }
 
         var res = currentReserve;
         var preStatement = "?q=makereserve&roomno="+res.roomNo+"&checkIn="+res.checkIn+"&checkOut="+res.checkOut+"&days="
             +res.days+"&totalfee="+res.totalFee+"&balance="+res.balance+"&method=Reserved"
-            +"&name="+name+"&ID="+ID+"&VISA="+VISA+"&phone="+phone+"&address="+address;
-
+            +"&name="+name+"&ID="+ID+"&VISA="+VISA+"&phone="+phone+"&address="+address+
+            "&mealtype="+mealtype+"&mealpre="+mealpre;
         connectDB("reception.php", preStatement, function(result) {
+            console.log(result);//........................................................................................................................
             if(result != "connection error") {
                 alert("reservation will be saved as a GRC");
+
+                var receptionMenu = $("#reception_menu");
+                $("#reserve_room_r").hide();
+                receptionMenu.show();
             }
         });
-
-        var receptionMenu = $("#reception_menu");
-        $("#reserve_room_r").hide();
-        receptionMenu.show();
     }
 }
 
 
 function checkInRoom() {
     if(validateCustomerDetail()) {
-        var name = $("#reserve_room_r input[id='customer_name']").val().split(" ").join("+");
-        var ID = $("#reserve_room_r input[id='customer_ID']").val().split(" ").join("+");
-        var VISA = $("#reserve_room_r input[id='customer_VISA']").val().split(" ").join("+");
-        var phone = $("#reserve_room_r input[id='customer_phone']").val().split(", ").join("+");
-        var address = $("#reserve_room_r input[id='customer_add']").val().split(" ").join("+");
+        var name = $("#reserve_room_r input[id='customer_name']").val().slice(0,99).split(" ").join("+");
+        var ID = $("#reserve_room_r input[id='customer_ID']").val().slice(0,10).split(" ").join("+");
+        var VISA = $("#reserve_room_r input[id='customer_VISA']").val().slice(0,15).split(" ").join("+");
+        var phone = $("#reserve_room_r input[id='customer_phone']").val().slice(0,10).split(", ").join("+");
+        var address = $("#reserve_room_r input[id='customer_add']").val().slice(0,99).split(" ").join("+");
+
+        var mealtype = $("#reserve_room_r input[name='meal_type']:checked").attr("id");
+        var mealpre = $("#reserve_room_r input[name='meal_pre']:checked").attr("id");
+        if(mealtype == "stay_only") {
+            mealtype = "Stay_only";
+        }
+        if(mealpre == "none") {
+            mealpre = 'none_veg';
+        }
 
         var res = currentReserve;
         var preStatement = "?q=makereserve&roomno="+res.roomNo+"&checkIn="+res.checkIn+"&checkOut="+res.checkOut+"&days="
             +res.days+"&totalfee="+res.totalFee+"&balance="+res.balance+"&method=CheckedIn"
-            +"&name="+name+"&ID="+ID+"&VISA="+VISA+"&phone="+phone+"&address="+address;
+            +"&name="+name+"&ID="+ID+"&VISA="+VISA+"&phone="+phone+"&address="+address+
+            "&mealtype="+mealtype+"&mealpre="+mealpre;
 
         connectDB("reception.php", preStatement, function(result) {
+            console.log(result);//........................................................................................................................
             if(result != "connection error") {
-                alert("reservation will be saved as a GRC");
+                alert("reservation will be saved as a FIT");
             }
+            var receptionMenu = $("#reception_menu");
+            $("#reserve_room_r").hide();
+            receptionMenu.show();
         });
 
-        var receptionMenu = $("#reception_menu");
-        $("#reserve_room_r").hide();
-        receptionMenu.show();
-        alert("reservation will be saved as a FIT");
+
     }
 }
 
@@ -419,7 +443,9 @@ function validateCustomerDetail() {
         alert("Provide Customer Name");
         valid = false;
     }
-    if( ($("#reserve_room_r input[id='customer_ID']").val().length == 0) || ($("#reserve_room_r input[id='customer_ID']").val().length == 0) ) {
+    console.log($("#reserve_room_r input[id='customer_ID']").val());
+    console.log($("#reserve_room_r input[id='customer_VISA']").val());//....................handle errors..................................................
+    if( ($("#reserve_room_r input[id='customer_ID']").val().length == 0) && ($("#reserve_room_r input[id='customer_VISA']").val().length == 0) ) {
         $("#reserve_room_r label[for='customer_ID']").css("color", "red");
         $("#reserve_room_r label[for='customer_VISA']").css("color", "red");
         alert("Provide customer ID or VISA");
@@ -444,48 +470,55 @@ function loadCurrentReservations() {
     var reserveContainer = $("#current_reserve_r #reserve_container");
     reserveContainer.empty();
     currReserves.length = 0;
-    //select values from the checkboxes and query from the database.............................................................................
 
-    currReserves.push(new Reservation("R0023","123","2017-03-23","2017-03-31",8,23500,12000,"C0123","Reserved", "M0023"));
-    currReserves.push(new Reservation("R0045","34","2017-03-23","2017-03-31",8,23500,12000,"C0123","CheckedIn", "M0023"));
-    currReserves.push(new Reservation("R0013","175","2017-03-23","2017-03-31",8,23500,12000,"C0123","CheckedOut", "M0023"));
-    currReserves.push(new Reservation("R0073","03","2017-03-23","2017-03-31",8,23500,12000,"C0123","CheckedOut", "M0023"));
-    currReserves.push(new Reservation("R0123","67","2017-03-23","2017-03-31",8,23500,12000,"C0123","Reserved", "M0023"));
-    currReserves.push(new Reservation("R0183","34","2017-03-23","2017-03-31",8,23500,12000,"C0123","CheckedIn", "M0023"));
-    currReserves.push(new Reservation("R0003","45","2017-03-23","2017-03-31",8,23500,12000,"C0123","CheckedOut", "M0023"));
+    var reserved = $("#current_reserve_r #reserved").is(":checked");
+    var checkedIn = $("#current_reserve_r #in_state").is(":checked");
+    var checkedOut = $("#current_reserve_r #out_state").is(":checked");
 
-    for(var i=0; i<currReserves.length; i++) {
-        var room = getRoom(currReserves[i].roomNo);
-        var customer = getCustomer(currReserves[i].customerID);
+    var preStatement = "?q=getreserves&reserved="+reserved+"&checkedIn="+checkedIn+"&checkedOut="+checkedOut;
+    connectDB("reception.php", preStatement, function(result) {
 
-        var classs = "reserved_res";
-        var statusString = "Reserved";
-        if(currReserves[i].status == "CheckedOut") {
-            classs = "out_res";
-            statusString = "Checked Out"
-        }else if(currReserves[i].status == "CheckedIn") {
-            classs = "in_res";
-            statusString = "Checked In";
+        if(result == "[]") return;
+
+        var reserves = [];
+        reserves = result.match(/[^{\}]+(?=})/g);
+        for(var i=0; i<reserves.length; i++) {
+            var data = reserves[i].match(/:"[\w \-\d]+"/gi);
+            for(var j=0; j<data.length; j++) {
+                data[j] = data[j].substring(2, data[j].length - 1);
+            }
+            var reservation = new Reservation(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]);
+            currReserves.push(reservation);
+
+            var custName = data[9];
+
+            var classs = "reserved_res";
+            var statusString = "Reserved";
+            if(reservation.status == "CheckedOut") {
+                classs = "out_res";
+                statusString = "Checked Out"
+            }else if(reservation.status == "CheckedIn") {
+                classs = "in_res";
+                statusString = "Checked In";
+            }
+
+            reserveContainer.append("<div class='reservation "+classs+"'><p><b> # "+reservation.roomNo+"</b> by <b> "+custName+
+                " </b></p><p>Check-In : "+reservation.checkIn+", Check-out : "+reservation.checkOut+"</p>" +
+                "<p style='text-align: right; color: white;'> "+statusString+" </p><div/>");
         }
 
-        reserveContainer.append("<div class='reservation "+classs+"'>" +
-            "<p><b> # "+room.number+"</b> by <b> "+customer.name+" </b></p>" +
-            "<p>Check-In : "+currReserves[i].checkIn+", Check-out : "+currReserves[i].checkOut+"</p>" +
-            "<p style='text-align: right; color: white;'> "+statusString+" </p>" +
-            "<div/>");
-    }
+        $("#current_reserve_r .reservation").click(function() {
+            initManageReservations(currReserves[$(this).index()]);
 
-    $("#current_reserve_r .reservation").click(function() {
-        initManageReservations(currReserves[$(this).index()]);
-
-        var manageReserve = $("#manage_reserve_r");
-        $("#current_reserve_r").hide();
-        manageReserve.show();
+            var manageReserve = $("#manage_reserve_r");
+            $("#current_reserve_r").hide();
+            manageReserve.show();
+        });
     });
 }
 
 
-$("#current_reserve_r #search_btn").keypress( loadCurrentReservations );
+$("#current_reserve_r input[type='checkbox']").change(loadCurrentReservations);
 
 
 $("#current_reserve_r .back_btn").click(function() {
@@ -500,94 +533,101 @@ $("#current_reserve_r .back_btn").click(function() {
 
 var currentCustomer = new Customer();
 var currentMeal = new Meal();
+var currentRoom = new Room();
 
 
 function initManageReservations(reservation) {
     currentReserve = reservation;
-
     $("#manage_reserve_r h3").text("# "+reservation.roomNo);
 
-    var room = getRoom(reservation.roomNo);
-    var AC = "None AC";
-    if(room.AC) {
-        AC = "AC";
-    }
-    var floor = "Gound floor";
-    if(room.floor != 0) {
-        floor = "Floor #"+room.floor;
-    }
-    var descriptionDiv = $("#manage_reserve_r #room_des");
-    descriptionDiv.empty();
+    var preStatement = "?q=reservedetails&resid="+reservation.resID;
+    connectDB("reception.php", preStatement, function(result) {
 
-    descriptionDiv.append("<p id='room_des'><span style='display: inline-block; width: 150px;'>Room Description </span>" +
-        " "+AC+", "+room.size+" bed, "+room.description+", "+floor+"</p>");
-
-    var meal = getMeal(reservation.mealID);
-    if(meal.pre == "None Veg") {
-        $("#manage_reserve_r input[id='none']").attr("checked", true);
-    }else {
-        $("#manage_reserve_r input[id='veg']").attr("checked", true);
-    }
-
-    if(meal.typee == "Full Bread") {
-        $("#manage_reserve_r input[id='FB']").attr("checked", true);
-    }else if(meal.typee == "Half Bread") {
-        $("#manage_reserve_r input[id='HB']").attr("checked", true);
-    }else if(meal.typee == "Breakfast Only") {
-        $("#manage_reserve_r input[id='Breakfast']").attr("checked", true);
-    }else {
-        $("#manage_reserve_r input[id='stay_only']").attr("checked", true);
-    }
-
-    $("#manage_reserve_r input[name='check_out']").val(reservation.checkOut);
-    $("#manage_reserve_r input[name='check_in']").val(reservation.checkIn);
-
-    var customer = getCustomer(reservation.customerID);
-    $("#manage_reserve_r input[name='customer_name']").val(customer.name);
-    $("#manage_reserve_r input[name='customer_ID']").val(customer.NID);
-    $("#manage_reserve_r input[name='customer_VISA']").val(customer.VISA);
-    $("#manage_reserve_r input[name='customer_add']").val(customer.address);
-    $("#manage_reserve_r input[name='customer_telephone']").val(customer.telephone);
-
-    $("#manage_reserve_r #total_value").text(currentReserve.totalFee);
-    $("#manage_reserve_r #payed_value").text(currentReserve.totalFee-currentReserve.balance);
-    $("#manage_reserve_r #balance_value").text(currentReserve.balance);
-
-    if(reservation.status != "CheckedOut") {
-        $("#manage_reserve_r #next_status").show();
-        var task1 = "Check In";
-        if(reservation.status == "CheckedIn") {
-            task1 = "Check Out";
+        if(result == '[]') return;
+        var data =[];
+        data = result.match(/:"[\w, \-\d]+"/gi);
+        for(var i=0; i<result.length; i++) {
+            if(data[i]!=undefined) {
+                data[i] = data[i].substring(2,data[i].length-1);
+            }
         }
-        $("#manage_reserve_r #next_status").text(task1);
+        var customer = new Customer(data[0], data[1], data[2], data[3], data[4], data[5]);
+        var room = new Room(data[6], data[7], data[8], data[9], data[10], data[11]);
+        var meal = new Meal(data[19], data[20], data[21]);
+        currentCustomer = customer;
+        currentRoom = room;
+        currentMeal = meal;
 
-    }else {
-        $("#manage_reserve_r #next_status").hide();
-    }
+        var AC = "None AC";
+        if(room.AC) {
+            AC = "AC";
+        }
+        var floor = "Ground floor";
+        if(room.floor != 0) {
+            floor = "Floor #"+room.floor;
+        }
+        var descriptionDiv = $("#manage_reserve_r #room_des");
+        descriptionDiv.empty();
 
-    $("#next_status").click(nextReservationStatus);
-    $("#save_reserve").click(saveReservationChanges);
-    $("#manage_reserve_r #make_payment").click(makePayment);
+        descriptionDiv.append("<p id='room_des'><span style='display: inline-block; width: 150px;'>Room Description </span>" +
+            " "+AC+", "+room.size+" bed, "+room.description+", "+floor+"</p>");
 
-    $("#manage_reserve_r input[name='check_in']").attr("min", dateToString(new Date()));
-    var checkIn = new Date($("#manage_reserve_r input[name='check_in']").val());
-    var checkOut = new Date($("#manage_reserve_r input[name='check_out']").val());
-    var checkInString = dateToString(checkIn);
-    $("#manage_reserve_r input[name='check_out']").attr("min", checkInString);
-    if(checkIn.getTime() >= checkOut.getTime()){
-        $("#manage_reserve_r input[name='check_out']").val(checkInString);
-    }
+        if(meal.pre == "None Veg") {
+            $("#manage_reserve_r input[id='none']").attr("checked", true);
+        }else {
+            $("#manage_reserve_r input[id='veg']").attr("checked", true);
+        }
 
-    if(reservation.status == "CheckedIn") {
-        $("#manage_reserve_r input[name='check_in']").prop("disabled", true);
-        $("#manage_reserve_r input[name='check_out']").prop("disabled", false);
-    }else if(reservation.status == "CheckedOut") {
-        $("#manage_reserve_r input[name='check_in']").prop("disabled", true);
-        $("#manage_reserve_r input[name='check_out']").prop("disabled", true);
-    }else {
-        $("#manage_reserve_r input[name='check_in']").prop("disabled", false);
-        $("#manage_reserve_r input[name='check_out']").prop("disabled", false);
-    }
+        if(meal.typee == "Full Bread") {
+            $("#manage_reserve_r input[id='FB']").attr("checked", true);
+        }else if(meal.typee == "Half Bread") {
+            $("#manage_reserve_r input[id='HB']").attr("checked", true);
+        }else if(meal.typee == "Breakfast Only") {
+            $("#manage_reserve_r input[id='Breakfast']").attr("checked", true);
+        }else {
+            $("#manage_reserve_r input[id='stay_only']").attr("checked", true);
+        }
+
+        $("#manage_reserve_r #checkin").text("Check-In : "+reservation.checkIn);
+        $("#manage_reserve_r #checkout").text("Check-Out : "+reservation.checkOut);
+
+        $("#manage_reserve_r input[name='customer_name']").val(customer.name);
+        $("#manage_reserve_r input[name='customer_ID']").val(customer.NID);
+        $("#manage_reserve_r input[name='customer_VISA']").val(customer.VISA);
+        $("#manage_reserve_r input[name='customer_add']").val(customer.address);
+        $("#manage_reserve_r input[name='customer_telephone']").val(customer.telephone);
+
+        $("#manage_reserve_r #total_value").text(currentReserve.totalFee);
+        $("#manage_reserve_r #payed_value").text(currentReserve.totalFee-currentReserve.balance);
+        $("#manage_reserve_r #balance_value").text(currentReserve.balance);
+
+        if(reservation.status != "CheckedOut") {
+            $("#manage_reserve_r #next_status").show();
+            var task1 = "Check In";
+            if(reservation.status == "CheckedIn") {
+                task1 = "Check Out";
+            }
+            $("#manage_reserve_r #next_status").text(task1);
+
+        }else {
+            $("#manage_reserve_r #next_status").hide();
+        }
+
+        $("#next_status").click(nextReservationStatus);
+        $("#save_reserve").click(saveReservationChanges);
+        $("#manage_reserve_r #make_payment").click(makePayment);
+
+        if(currentReserve.status == "Reserved") {
+            $("#cancel_reserve").show();
+            $("#cancel_reserve").click(function() {
+
+                var preStatement = "?q=cancelreserve&resid=" + currentReserve.resID + "&custid=" + currentReserve.customerID;
+                connectDB("reception.php", preStatement, function (result) {});
+            });
+        }else {
+            $("#cancel_reserve").hide();
+        }
+    });
 }
 
 
@@ -604,44 +644,20 @@ $("#manage_reserve_r input[name='meal_type']").change(changeMealFee);
 $("#manage_reserve_r input[name='meal_pre']").change(changeMealFee);
 
 
-$("#manage_reserve_r input[type='date']").change(function() {
-    validateDates();
-    var checkInString = $("#manage_reserve_r input[name='check_in']").val();
-    var checkOutString = $("#manage_reserve_r input[name='check_out']").val();
-    var checkIn = stringToDate(checkInString);
-    var checkOut = stringToDate(checkOutString);
-
-    var ms1 = Date.UTC(checkIn.getFullYear(),checkIn.getMonth(),checkIn.getDate());
-    var ms2 = Date.UTC(checkOut.getFullYear(),checkOut.getMonth(),checkOut.getDate());
-    var days = Math.floor(ms2-ms1)/(1000*3600*24)+1;
-
-    currentReserve.checkIn = checkIn;
-    currentReserve.checkOut = checkOut;
-    var newDays = days;
-
-    var newTotal = parseInt((currentReserve.totalFee/currentReserve.days)*newDays);
-    var newBalance = newTotal - (currentReserve.totalFee - currentReserve.balance);
-
-    currentReserve.totalFee = newTotal;
-    currentReserve.balance = newBalance;
-
-    $("#manage_reserve_r #total_value").text(newTotal);
-    $("#manage_reserve_r #payed_value").text(newTotal-newBalance);
-    $("#manage_reserve_r #balance_value").text(newBalance);
-
-
-});
-
-
 function saveReservationChanges() {
-    currentCustomer = getCustomer(currentReserve.customerID);
+
     currentCustomer.name = $("#manage_reserve_r input[name='customer_name']").val();
     currentCustomer.NID = $("#manage_reserve_r input[name='customer_ID']").val();
     currentCustomer.VISA = $("#manage_reserve_r input[name='customer_VISA']").val();
     currentCustomer.address = $("#manage_reserve_r input[name='customer_add']").val();
     currentCustomer.telephone = $("#manage_reserve_r input[name='customer_telephone']").val();
 
-    //save changes in database////////////.......................................................................................................................................
+    var preStatement = "?q=updatereserve&resid="+currentReserve.resID+"&totalfee="+currentReserve.totalFee+"&balance="+
+            currentReserve.balance+"&status="+currentReserve.status+
+            "&mealtype="+currentMeal.typee+"&mealpre="+currentMeal.pre+"&name="+currentCustomer.name+"&NID="+currentCustomer.NID+
+            "&VISA="+currentCustomer.VISA+"&address="+currentCustomer.address+"&telephone="+currentCustomer.telephone+
+            "&custid="+currentCustomer.custID;
+    connectDB("reception.php", preStatement, function(result) {});
 
     initReservations();
 
@@ -652,9 +668,13 @@ function saveReservationChanges() {
 
 
 function nextReservationStatus() {
-    var nextStatus = "Checked In";
+    var nextStatus = "CheckedIn";
     if(currentReserve.status == "CheckedIn" ) {
-        nextStatus = "CheckedOut";
+        if(currentReserve.balance != 0 ) {
+            return;
+        }else {
+            nextStatus = "CheckedOut";
+        }
     }
     currentReserve.status = nextStatus;
     saveReservationChanges();
@@ -662,33 +682,49 @@ function nextReservationStatus() {
 
 
 function changeMealFee() {
-    var mealType = $("#manage_reserve_r input[name='meal_type']:checked").attr('id');
-    var mealPre = $("#manage_reserve_r input[name='meal_pre']:checked").attr('id');
-    currentMeal.pre = mealPre;
-    currentMeal.typee = mealType;
+    var preStatement = "?q=getfee";
+    connectDB("reception.php", preStatement, function(result) {
 
-    //load meal fee and other related fees from the database.....................................................................................
-    var mealFee = 0;
-    if(mealType == "Breakfast") {
-        mealFee = 500;
-    }else if(mealType == "HB") {
-        mealFee = 1000;
-    }else if(mealType == "FB") {
-        mealFee = 1500;
-    }
-    if(mealPre == "none") {
-        mealFee *= 1.5;
-    }
-    var roomFee = getRoom(currentReserve.roomNo).prize;
-    var newTotal = (roomFee + mealFee)*currentReserve.days;
-    var newBalance = newTotal - (currentReserve.totalFee - currentReserve.balance);
+        var fees = [];
 
-    currentReserve.totalFee = newTotal;
-    currentReserve.balance = newBalance;
+        var mealType = $("#manage_reserve_r input[name='meal_type']:checked").attr('id');
+        var mealPre = $("#manage_reserve_r input[name='meal_pre']:checked").attr('id');
+        currentMeal.pre = mealPre;
+        currentMeal.typee = mealType;
 
-    $("#manage_reserve_r #total_value").text(newTotal);
-    $("#manage_reserve_r #payed_value").text(newTotal-newBalance);
-    $("#manage_reserve_r #balance_value").text(newBalance);
+        if (result == '[]') return;
+
+        var rows = [];
+        rows = result.match(/[^{\}]+(?=})/g);
+
+        for (var i = 0; i < rows.length; i++) {
+            var data = rows[i].match(/:"[\w.\d]+"/gi);
+            fees.push(parseFloat(data[1].substring(2, data[1].length - 1)));
+        }
+
+        var mealFee = 0;
+        if (mealType == "Breakfast") {
+            mealFee = fees[2];
+        } else if (mealType == "HB") {
+            mealFee = fees[1];
+        } else if (mealType == "FB") {
+            mealFee = fees[0];
+        }
+        if (mealPre == "none") {
+            mealFee *= fees[3];
+        }
+
+        var roomFee = parseInt(currentRoom.prize);
+        var newTotal = (roomFee + mealFee)*currentReserve.days;
+        var newBalance = newTotal - (currentReserve.totalFee - currentReserve.balance);
+
+        currentReserve.totalFee = parseInt(newTotal);
+        currentReserve.balance = parseInt(newBalance);
+
+        $("#manage_reserve_r #total_value").text(newTotal);
+        $("#manage_reserve_r #payed_value").text(newTotal-newBalance);
+        $("#manage_reserve_r #balance_value").text(newBalance);
+    });
 }
 
 
