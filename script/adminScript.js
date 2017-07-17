@@ -94,13 +94,32 @@ function initManageRoom(room) {
 
     var preStatement = "?q=editableroom&roomno="+room.number;
     connectDB("admin.php", preStatement, function(result) {
+        console.log(room.number+"  "+result);
         if(result == '[]') {
 
-            $("#save_btn").click(function() {
+            $("#manage_rooms_r .save_btn").click(function() {
+                console.log("sdlkfsdkflj");
 
-                var preStatement = "?q=updateroom&roomno="+room.number;
+                var roomno = $("#ROOMNO").val();
+                var floor = $("#FLOOR").val();
+                var prize = $("#PRIZE").val();
+                var AC = $("#manage_rooms_r input[name='AC']:checked").attr('id');
+                console.log(AC);
+                if(AC == "AC") {
+                    AC = 1;
+                }else {
+                    AC = 0;
+                }
+                var description = $("#DESCRIPTION").val();
+                var size = $("#SIZE option:selected").val();
+
+                var preStatement = "?q=updateroom&oldno="+room.number+"&roomno="+roomno+"&floor="+floor+"&size="+size+"&prize="
+                    +prize+"&AC="+AC+"&description="+description;
+
+                console.log(preStatement);
                 connectDB("admin.php", preStatement, function(result) {
-
+                    console.log(result);
+                });
             });
 
         }else {
@@ -117,7 +136,7 @@ function initManageRoom(room) {
 }
 
 
-$("#back_btn").click(function() {
+$("#manage_rooms_r .back_btn").click(function() {
     $("#manage_rooms_r").hide();
     $("#rooms_r").show();
     initRooms();

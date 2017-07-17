@@ -43,6 +43,10 @@ input, select {
 .save_btn {
     margin: 10px 10px 10px 20%;
 }
+.save_btn:hover {
+    color: darkred;
+    cursor: pointer;
+}
 
 #rooms_r .room:hover {
     cursor: pointer;

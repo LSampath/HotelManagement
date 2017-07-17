@@ -25,7 +25,23 @@ if($q == "getrooms") {
 }else if($q == "editableroom") {
 
     $roomNo = $_GET['roomno'];
-    $query = "select count(roomno) from room where roomno='".$roomNo."'";
+    $query = "select roomno from reservation where roomno='".$roomNo."'";
+
+
+}else if($q == 'updateroom') {
+
+    $oldno = $_GET['oldno'];
+    $roomno = $_GET['roomno'];
+    $floor = $_GET['floor'];
+    $size = $_GET['size'];
+    $prize =$_GET['prize'];
+    $AC =$_GET['AC'];
+    $description =$_GET['description'];
+
+    $query = "update room set roomno='".$roomno."', floor='".$floor."', prize='".$prize."', size='".$size."', AC='".$AC."', 
+    description='".$description."' where roomno='".$oldno."'";
+    echo $query;
+
 
 }
 
