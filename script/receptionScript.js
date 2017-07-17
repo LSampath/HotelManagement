@@ -113,7 +113,7 @@ function loadAvailableRooms() {
         size = "Double";
     }
 
-    var preStatement = "?q=getrooms&checkin="+checkIn+"&checkout="+checkOut+"&type="+type+"&size="+size;
+    var preStatement = "?q=getAvailableRooms&checkin="+checkIn+"&checkout="+checkOut+"&type="+type+"&size="+size;
     connectDB("reception.php", preStatement, function(result) {
         if(result == "[]") return;
 
@@ -740,61 +740,4 @@ function makePayment() {
     $("#manage_reserve_r #payed_value").text(currentReserve.totalFee - currentReserve.balance);
     $("#manage_reserve_r #balance_value").text(currentReserve.balance);
 }
-
-
-
-/////////////////////////////////////////rooms /////////////////////////////////////////////////////////////////////////
-
-var roomList = new Array();
-
-
-function initRooms() {
-    $("#rooms_r input[id='any_room']").attr("checked", true);
-    $("#rooms_r input[id='single_room']").attr("checked", true);
-
-    loadRooms();
-}
-
-
-function loadRooms() {
-    var roomType = $("#rooms_r input[name='room_type']:checked").val();
-    var roomSize = $("#rooms_r input[name='room_size']:checked").val();
-
-    /////load rooms from the database.............................................................................................................................
-    roomList.length =0;
-    roomList.push(new Room(34, 0, "Single", 12500, true, "Terrace with view of lagoon"));
-    roomList.push(new Room(124, 1, "Double", 15700, true, "Bath in morning light"));
-    roomList.push(new Room(67, 3, "Single", 12500, true, "Sight of lagoon"));
-    roomList.push(new Room(01, 2, "Double", 17500, true, "Sight of lagoon and temple"));
-    roomList.push(new Room(38, 2, "Double", 13500, false, "Terrace with view of lagoon"));
-    roomList.push(new Room(83, 2, "single", 10500, true, "Bath in morning light"));
-    roomList.push(new Room(185, 0, "Double", 12500, false, "Terrace with view of lagoon"));
-    roomList.push(new Room(19, 1, "Single", 12500, true, "Cool breeze flows through the room"));
-    roomList.push(new Room(72, 3, "Single", 10500, false, "Nearest to the elevator"));
-
-    var roomListDiv = $("#rooms_r #room_list");
-    roomListDiv.empty();
-    for(var i=0; i<roomList.length; i++) {
-
-        var room = roomList[i];
-        var AC = "AC";
-        if(room.AC == false) {
-            AC = "None AC";
-        }
-        var floor = "Ground floor";
-        if(room.floor != 0){
-            floor = "Floor "+"#"+room.floor;
-        }
-        roomListDiv.append("<div class='room'><h3># "+room.number+"</h3>" +
-            "<p>"+AC+", "+room.size+" bed, "+floor+", "+room.description+", Rs. "+room.prize+"/day</p></div>");
-    }
-
-}
-
-
-$("#rooms_r .back_btn").click(function() {
-    $("#rooms_r").hide();
-    $("#reception_menu").show();
-});
-
 

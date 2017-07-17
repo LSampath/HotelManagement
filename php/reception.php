@@ -11,7 +11,7 @@ require('connection.php');
 $q= $_GET["q"];
 
 
-if($q == 'getrooms') {
+if($q == 'getAvailableRooms') {
 
     $checkIn = $_GET["checkin"];
     $checkout = $_GET["checkout"];
@@ -27,14 +27,6 @@ if($q == 'getrooms') {
                   where r.AC=".$type." and r.size='".$size."' and ( (s.checkout<'".$checkIn."' or s.checkin>'".$checkOut."') or
                   r.roomno not in (select roomno from reservation) )";
     }
-
-
-}else if($q == "getAvailableRooms") {
-
-    $type = $_GET["type"];
-    $size = $_GET["size"];
-
-    $query = "select roomno, floor, size, prize, AC, description from room where status='available'";
 
 
 }else if($q == 'getroom') {

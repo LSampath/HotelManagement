@@ -88,12 +88,18 @@ footer a {
 /*======================================================*/
 
 /*================container===========================*/
+body {
+    width: 100%;
+    margin: auto;
+}
 #container {
     display: table;
     border-collapse: separate;
     border-spacing: 0 5px;
     min-height: 520px;
     font-size: 90%;
+    width: 80%;
+    margin: auto;
 }
 
 /*=======================================================*/
@@ -101,8 +107,10 @@ footer a {
 /*===================Content=============================*/
 #content {
     display: table-cell;
-    width: 77%;
+    width: 100%;
+    margin: auto;
     padding: 0;
+    text-align: left;
 }
 
 .menu_item {
@@ -124,45 +132,45 @@ footer a {
 /*======================================================*/
 
 /*=================aside============================*/
-#right_row {
-    background-color: brown;
-    display: table-cell;
-    width: 23%;
-    color: white;
-}
+/*#right_row {*/
+    /*background-color: brown;*/
+    /*display: table-cell;*/
+    /*width: 23%;*/
+    /*color: white;*/
+/*}*/
 
-#right_row hr, #right_row h3 {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
+/*#right_row hr, #right_row h3 {*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*text-align: center;*/
+/*}*/
 
-.notification {
-    padding: 10px 5px;
-    margin: 5px 0;
-    color: lightGray;
-}
+/*.notification {*/
+    /*padding: 10px 5px;*/
+    /*margin: 5px 0;*/
+    /*color: lightGray;*/
+/*}*/
 
-.notification:hover {
-    background-color: darkred;
-}
+/*.notification:hover {*/
+    /*background-color: darkred;*/
+/*}*/
 
-.notification p {
-    margin: 3px;
-}
+/*.notification p {*/
+    /*margin: 3px;*/
+/*}*/
 
-.notify_button_box {
-    text-align: right;
-    padding-right: 20px;
-}
+/*.notify_button_box {*/
+    /*text-align: right;*/
+    /*padding-right: 20px;*/
+/*}*/
 
-.button {
-    display: inline;
-}
-.button:hover {
-    cursor: pointer;
-    color: coral;
-}
+/*.button {*/
+    /*display: inline;*/
+/*}*/
+/*.button:hover {*/
+    /*cursor: pointer;*/
+    /*color: coral;*/
+/*}*/
 
 /*===========================================================*/
 

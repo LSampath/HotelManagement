@@ -13,7 +13,7 @@ if($q == 'login') {
     $name = $_GET["name"];
     $pass = $_GET["pass"];
 
-    $query = "select count(name) from users where name='".$name."' and password='".$pass."'";
+    $query = "select count(name) from user where name='".$name."' and password='".$pass."'";
 
 }else if($q = 'getuser') {
     $name = $_GET["name"];
