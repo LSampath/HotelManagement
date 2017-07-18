@@ -1,32 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Lagoon Dining</title>
-    <link rel="stylesheet" href="mainStyle.css" type="text/css">
-    <link rel="stylesheet" href="loginStyle.css" type="text/css">
-    <script src="../library/jquery-3.2.1.min.js" type="text/javascript"></script>
-    <script src=""></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/user.css">
 </head>
-<body>
+<body style="background: linear-gradient(white,#F2DACB)">
 
-<div id="container_div">
 
-    <img src="logo.png" alt="Hotel Logo">
 
-    <form>
-        <input type="text" name="name" placeholder="User name" id="login_name">
-        <br>
-        <input type="password" name="password" placeholder="Password" id="login_pass">
-        <br>
-        <input type='button' name="submit" value="Login" id="submit_btn">
-    </form>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="Login.html"><i class="glyphicon glyphicon-phone"></i>Login</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active" role="presentation"><a href="index.html">Home</a></li>
+                    <li role="presentation"><a href="Contact.html">Contact us</a></li>
+                    <li role="presentation"><a href="gallery.html">Gallery</a></li>
+                    <li role="presentation"><a href="reserve.html">Reserve</a></li>
 
-</div>
 
-<script src="../library/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../script/general.js" type="text/javascript"></script>
-<script src="../script/loginScript.js" type="text/javascript"></script>
-<p id="envelop" style="color: white; display: none;"></p>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="jumbotron hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-push-7 phone-preview">
+                    <div class="iphone-mockup">
+                        <div class="screen"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-md-pull-3 get-it">
+                    <h1>Hotel Lagoon Dining</h1>
+                    <p>Hotel Lagoon Dining offers 5 star luxury accommodation among Sri Lanka resorts with breathtaking views of the Indian Ocean. Nestled amongst the
+                      wild coconut groves of Moratuwa, Lagoon Hotel is truly a laid back paradise. The cool palms cast their shadow over the blue water, lit only by the
+                       last streaks of the setting sun, retreat from reality and surrender to the sublime serenity of the tropical island..</p>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="testimonials">
+        <h2 class="text-center">All People Love It!</h2>
+        <blockquote>
+            <p>Visit and enjoy the beauty of the world class Hotels!!..</p>
+            <footer>Famous Hotels in Sri Lanka</footer>
+        </blockquote>
+    </section>
+
+
+
+
+
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Hotel World © 2017</h5></div>
+                <div class="col-sm-6 social-icons">
+                  <a href="https://www.facebook.com/pages/Hotel-Lagoon-Dining/658820864143210"><i class="fa fa-facebook"></i></a>
+                  <a href="#"><i class="fa fa-twitter"></i></a>
+                  <a href="#"><i class="fa fa-instagram"></i></a></div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
+
 </html>
