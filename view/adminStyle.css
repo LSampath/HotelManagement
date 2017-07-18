@@ -40,16 +40,40 @@ input, select {
     width: 50%;
 }
 
-.save_btn {
+.save_btn, .remove_btn {
+    display: inline-block;
     margin: 10px 10px 10px 20%;
 }
-.save_btn:hover {
+.save_btn:hover, .remove_btn:hover {
     color: darkred;
     cursor: pointer;
 }
 
-#rooms_r .room:hover {
-    cursor: pointer;
-    background-color: #AAA;
+
+
+
+/*=================rooms===================================*/
+
+.user, .room {
+    background-color: #DDDDDD;
+    margin: 10px;
+    padding: 10px;
 }
 
+.user:hover, #new_user:hover, #profile:hover, .room:hover {
+    cursor: pointer;
+    background-color: #AAA;
+    background-color: #D5D5D5;
+}
+
+#users_r .user h3 {
+    margin: 0;
+}
+
+#profile {
+    margin-bottom: 20px;
+}
+
+#new_user {
+    margin-top: 20px;
+}

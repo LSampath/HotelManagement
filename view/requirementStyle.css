@@ -199,20 +199,3 @@
 }
 
 /*======================reservations=======================*/
-
-
-/*=================rooms===================================*/
-
-#rooms_r .room {
-    background-color: #DDDDDD;
-    margin: 5px;
-    padding: 10px;
-}
-
-#rooms_r .room:hover {
-    background-color: #D5D5D5;
-}
-
-#rooms_r .room h3 {
-    margin: 0;
-}

@@ -39,6 +39,14 @@ $("#rooms_m").click(function() {
 });
 
 
+$("#users_m").click(function() {
+    initUsers();
+
+    $("#reception_menu").hide();
+    $("#users_r").show();
+});
+
+
 ///////////////////////New Reservation sub menu////////////////////////
 
 

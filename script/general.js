@@ -47,10 +47,12 @@ function Payment(paymentID, date, value) {
     this.value = value;
 }
 
-function User(name, password, position) {
+function User(name, password, fullName, position, empID) {
     this.name = name;
     this.password = password;
+    this.fullName = fullName;
     this.position = position;
+    this.empID = empID;
 }
 
 

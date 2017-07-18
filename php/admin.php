@@ -28,6 +28,24 @@ if($q == "getrooms") {
     $query = "select roomno from reservation where roomno='".$roomNo."'";
 
 
+}else if($q == "roomexist") {
+
+    $roomNo = $_GET['roomno'];
+    $query = "select roomno from room where roomno='" . $roomNo . "'";
+
+
+}else if($q == "addroom") {
+
+    $roomno = $_GET['roomno'];
+    $floor = $_GET['floor'];
+    $size = $_GET['size'];
+    $prize =$_GET['prize'];
+    $AC =$_GET['AC'];
+    $description =$_GET['description'];
+
+    $query = "insert into room values(".$roomno.", ".$floor.", '".$size."', ".$prize.", ".$AC.", '".$description."', 'available');";
+
+
 }else if($q == 'updateroom') {
 
     $oldno = $_GET['oldno'];
@@ -40,7 +58,56 @@ if($q == "getrooms") {
 
     $query = "update room set roomno='".$roomno."', floor='".$floor."', prize='".$prize."', size='".$size."', AC='".$AC."', 
     description='".$description."' where roomno='".$oldno."'";
+
+
+}else if($q == "getusers") {
+
+    $name = $_GET['name'];
+    $query = "select * from user where NOT ( name='".$name."')";
+
+
+}else if($q == 'getuser') {
+
+    $name = $_GET['name'];
+    $query = "select * from user where name='".$name."'";
+
+
+}else if($q == 'adduser') {
+
+    $name = $_GET['name'];
+    $password = $_GET['password'];
+    $fullname = $_GET['fullname'];
+    $position = $_GET['position'];
+    $empid = $_GET['empid'];
+
+    $query = "insert into user values('".$name."', '".$password."', '".$fullname."', '".$position."', '".$empid."')";
+
+
+}else if($q == 'updateuser') {
+
+    $name = $_GET['name'];
+    $password = $_GET['password'];
+    $fullname = $_GET['fullname'];
+    $position = $_GET['position'];
+    $empid = $_GET['empid'];
+    $oldname = $_GET['oldname'];
+    echo $fullname;
+
+    $query = "update user set name='".$name."', password='".$password."', fullname='".$fullname."', ".
+        "position='".$position."', empid='".$empid."' where name='".$oldname."'";
     echo $query;
+
+
+}else if($q == "removeroom") {
+
+    $roomno = $_GET['roomno'];
+    $query = "delete from room where roomno='".$roomno."'";
+
+
+}else if($q == "removeuser") {
+
+    $name = $_GET['name'];
+    $query = "delete from user where name='".$name."'";
 
 
 }
