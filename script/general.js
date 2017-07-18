@@ -41,11 +41,13 @@ function Meal(mealID, pre, type) {
     this.typee = type;
 }
 
+
 function Payment(paymentID, date, value) {
     this.paymentID = paymentID;
     this.date = date;
     this.value = value;
 }
+
 
 function User(name, password, fullName, position, empID) {
     this.name = name;
@@ -54,7 +56,6 @@ function User(name, password, fullName, position, empID) {
     this.position = position;
     this.empID = empID;
 }
-
 
 
 function stringToDate(dateString) {
@@ -70,48 +71,12 @@ function dateToString(date) {
     return ( year+"-"+month+"-"+day);
 }
 
-
-function getRoom(roomNo) {
-    //////query room from the database.................................................................................................................
-    var floor = 0;
-    var size = "Double";
-    var prize = 13500;
-    if(roomNo > 50) {
-        floor =1;
-        prize = 16000;
-    }else if(roomNo > 100) {
-        floor = 2;
-        size = "Single";
-    }
-    return new Room(roomNo, floor, size, prize, true, "View of Lagoon and Temple");
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function getCustomer(customerID) {
-    var name = "Lahiru Sampath";
-    var NID = "960313690v";
-    var VISA = "";
-    var telephone = "+94719360004";
-    var addresss = "Nandana, Penatiyana, Weligama";
-    //use databse //////////////.........................................................................................................................
-    return new Customer(customerID,name,NID,VISA,telephone,addresss);
-}
-
-
-function getMeal(mealID) {
-    //query from the database...........................................................................................................................
-    var pre = "Veg";
-    var type = "Full Bread";
-    return new Meal(mealID, pre, type);
-}
-
-// function getUser(name, pass) {
-//     var preStatement = "?q=getuser&name="+name+"&pass="+pass;
-//     var file = "general.php";
-//
-//     var result = connectDB(file, preStatement);
-//     return result;
-// }
+// $("#logout").click(function() {
+//     window.location = "http://localhost/HotelManagement/view/index.html";
+// })
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

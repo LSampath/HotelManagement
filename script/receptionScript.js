@@ -18,8 +18,48 @@ window.onload = function() {
         $("#users_m").show();
         $("#rooms_m").show();
     }
+
+    $("header .dropbtn").text(name);
+
+    $("header #my_profile").click(function(){
+        var preStatement = "?q=getuser&name="+name;
+        connectDB("admin.php", preStatement, function(result) {
+            if (result == "[]") return;
+
+            var data = result.match(/:"[\w. ,\d]+"/gi);
+            for (var i = 0; i < data.length; i++) {
+                data[i] = data[i].substring(2, data[i].length - 1);
+            }
+            var myprofile = new User(data[0], data[1], data[2], data[3], data[4]);
+            $(".requirement").hide();
+            $("#reception_menu").hide();
+            loadUserDetails(myprofile, true);
+        });
+    });
+
     $("#reception_menu").show();
 }
+
+
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
 
 ////////////////////////Receptions Menu/////////////////////////
 $("#new_reserve_m").click( function(){
