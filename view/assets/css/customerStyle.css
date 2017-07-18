@@ -1,0 +1,205 @@
+/*----------------header---------------------------------------------*/
+body {
+    /*background: url('63553012-light-brown-wallpapers.jpg') fixed;*/
+}
+
+header p {
+    padding: 20px 30px 10px 10px;
+    margin:0;
+    text-align: right;
+}
+header #log_in:hover {
+    color: coral;
+    cursor: pointer;
+}
+
+#hotel_name {
+    margin: 0;
+    text-align: center;
+    padding: 0;;
+}
+
+
+
+/*-----------------------------end of header-----------------------------------*/
+
+/*--------------------------container------------------------------------------*/
+
+#container {
+    text-align: center;
+    width: 100%;
+}
+
+#quote {
+    margin: 50px 100px;
+    color: brown;
+}
+
+#hotel_pic img{
+    width : 90%;
+    margin: 20px 0;
+}
+
+#facility_div {
+    margin: 5px;
+    color: darkred;
+}
+
+.facilities {
+    background: -webkit-linear-gradient(0deg, transparent 1%, white , transparent 99%);
+}
+
+.facilities p, .facilities h3 {
+    margin: 5px;
+}
+
+#make_reservation {
+    border: solid 1px white;
+    color: darkred;
+    margin: 30px 5%;
+}
+#make_reservation h2:hover {
+    color: chocolate;
+    cursor: pointer;
+}
+
+/*-------------------------------------reservation--------------------------------------------------------------------*/
+
+#reservation {
+    margin: 0;
+    display: none;
+}
+
+#reservation h2 {
+    margin: 10px;
+    color: darkred;
+    text-align: center;
+}
+
+#reservation form {
+    margin: 10px 10%;
+    padding-left: 10px;
+    border: solid 1px white;
+}
+
+#reservation input {
+    margin: 10px 30px 20px 0;
+}
+
+#reservation p {
+    margin: 0;
+}
+
+#available_rooms {
+    margin: 5px 10%;
+    color: darkred;
+}
+
+#available_rooms .room {
+    margin: 7px 0;
+    padding: 5px 10px;
+    border: solid 1px white;
+    background: -webkit-linear-gradient(0deg, #eebb55 , transparent 90%);
+}
+
+.room h3 {
+    margin: 0;
+}
+
+#available_rooms .room:hover {
+    cursor: pointer;
+    background: -webkit-linear-gradient(0deg, #ffaa55 , transparent 90%);
+}
+
+#reservation .title_div h2 {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+#reservation .back_btn:hover {
+    cursor: pointer;
+    color: chocolate;
+}
+
+
+/*-----------------------------------end of reservations-------------------------------------------------*/
+
+/*------------------------------------reserve details---------------------------------------------------*/
+
+#reserve_detail {
+    margin: 0;
+    display: none;
+}
+
+#reserve_detail h2 {
+    margin: 10px;
+    color: darkred;
+    text-align: center;
+}
+
+#reserve_detail form {
+    margin: 10px 10%;
+    padding: 0 10px;
+    border: solid 1px white;
+}
+
+#reserve_detail input[type='date'] {
+    margin: 5px 30px 5px 5px;
+}
+
+#reserve_detail input[type='radio'] {
+    margin: 0 5px;
+}
+
+#reserve_detail input[type='text'] {
+    margin: 5px 30px 5px 5px;
+    width: 142px;
+}
+
+#reserve_detail #customer_add, #reserve_detail #customer_name {
+    width: 429px;
+}
+
+#reserve_detail .text_label {
+    display: inline-block;
+    width: 100px;
+}
+
+#reserve_detail #reserve_btn:hover {
+    color: coral;
+    cursor: pointer;
+}
+
+#reserve_detail .title_div h2 {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+#reserve_detail .back_btn:hover {
+    cursor: pointer;
+    color: chocolate;
+}
+
+
+/*---------------------------common-----------------------------------------------------------------------*/
+
+hr {
+    height: 1px;
+    background-color: white;
+    border: none;
+}
+
+input {
+    font-family: "Microsoft JhengHei", Calibri;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: solid 1px white;
+    color: darkred;
+}
+
+.title_div {
+    margin: 10px 10%;
+}
+
+
+
+

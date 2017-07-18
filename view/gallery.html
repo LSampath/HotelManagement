@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<title>Hotel Lagoon Dining</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/user.css">
+<body style="background: linear-gradient(white, lightblue);">
+  <nav class="navbar navbar-default">
+      <div class="container">
+          <div class="navbar-header"><a class="navbar-brand navbar-link" href="Login.html"><i class="glyphicon glyphicon-phone"></i>Login</a>
+              <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          </div>
+          <div class="collapse navbar-collapse" id="navcol-1">
+              <ul class="nav navbar-nav navbar-right">
+                  <li class="active" role="presentation"><a href="index.html">Home</a></li>
+                  <li role="presentation"><a href="Contact.html">Contact us</a></li>
+                  <li role="presentation"><a href="gallery.html">Gallery</a></li>
+                  <li role="presentation"><a href="reserve.html">Reserve</a></li>
+
+
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+<h2 class="w3-center">.....Our Hotel Inside.....</h2>
+
+<div class="w3-content w3-display-container">
+  <img class="mySlides" src="assets/img/slider1.jpg" style="width:100%">
+  <img class="mySlides" src="assets/img/slider2.jpg" style="width:100%">
+  <img class="mySlides" src="assets/img/slider3.jpg" style="width:100%">
+  <img class="mySlides" src="assets/img/slider4.jpg" style="width:100%">
+  <img class="mySlides" src="assets/img/slider5.jpg" style="width:100%">
+  <img class="mySlides" src="assets/img/slider6.jpg" style="width:100%">
+
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+
+<script>
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "block";
+}
+</script>
+
+</body>
+</html>
