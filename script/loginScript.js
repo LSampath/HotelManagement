@@ -17,33 +17,22 @@ $("#submit_btn").click(function(){
     var preStatement = "?q=login&name="+name+"&pass="+pass;
 
     connectDB("login.php", preStatement, function(result) {
-        if(result.charAt(result.length-4) == 1) {
+        if(result == '[]') {
+            alert("Wrong authentication");
+        }else {
 
-            var preStatement = "?q=getuser&name="+name+"&pass="+pass;
-            var file = "login.php";
-            loadHomePage(name);
+            var data = result.match(/:"[\w\d]+"/gi);
+            var name = data[0].substring(2,data[0].length-1);
+            var position = data[1].substring(2,data[1].length-1);
 
-            // connectDB(file, preStatement, function(result) {
-            //     var data = result.match(/:"[\w\d]+"/gi);
-            //     for(var i=0; i<data.length; i++) {
-            //         data[i] = data[i].substring(2,data[i].length-1);
-            //     }
-            //
-            //     var user = new User(data[0],data[1],data[2]);
-            //     loadHomePage(user);
-            // });
+            loadHomePage(name, position);
         }
     });
-
 });
 
 
-function loadHomePage(name) {
-    // var xmlhttp = new XMLHttpRequest();
-    // xmlhttp.open("GET", "http://localhost/HotelManagement/view/home.html", false);
-    // xmlhttp.send();
-    // document.getElementsByTagName("container_div").innerHTML = xmlhttp.responseText;
-    window.location = "http://localhost/HotelManagement/view/home.html?name="+name;
+function loadHomePage(name, position) {
+    window.location = "http://localhost/HotelManagement/view/home.html?name="+name+"?position="+position;
 }
 
 

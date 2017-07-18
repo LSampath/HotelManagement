@@ -5,6 +5,7 @@
     <title>Hotel Lagoon Dining</title>
     <link rel="stylesheet" href="assets/css/mainStyle.css">
     <link rel="stylesheet" href="assets/css/requirementStyle.css">
+    <link rel="stylesheet" href="assets/css/adminStyle.css">
 </head>
 <body>
 
@@ -28,6 +29,14 @@
                 <p>View previously created reservations.</p>
             </div>
 
+            <div class="menu_item" id="rooms_m">
+                <h2>Rooms</h2>
+                <p>Available rooms in hotel.</p>
+            </div>
+            <div class="menu_item" id="users_m">
+                <h2>Users</h2>
+                <p>User of the management system.</p>
+            </div>
         </div>
         <!----------------------end of menu for reception------------------------>
 
@@ -258,24 +267,120 @@
                 <div class="radio_group">
                     <p>Room type</p>
                     <label for="any_type" class="radio_label">Any </label>
-                    <input type="radio" name="room_type" id="any_room" value="any_type">
+                    <input type="radio" name="room_type" id="any_room" value="any">
                     <label for="NONE_AC_type" class="radio_label">None AC </label>
-                    <input type="radio" name="room_type" id="NONE_AC_room" value="NONE_AC_type">
+                    <input type="radio" name="room_type" id="NONE_AC_room" value="0">
                     <label for="AC_type" class="radio_label">AC </label>
-                    <input type="radio" name="room_type" id="AC_room" value="AC_type">
+                    <input type="radio" name="room_type" id="AC_room" value="1">
                 </div>
                 <div class="radio_group">
                     <p>Room size</p>
                     <label for="single_size" class="radio_label">Single </label>
-                    <input type="radio" name="room_size" id="single_room" value="single_size">
+                    <input type="radio" name="room_size" id="single_room" value="Single">
                     <label  class="radio_label">Double </label>
-                    <input type="radio" name="room_size" id="double_room" value="double_size">
+                    <input type="radio" name="room_size" id="double_room" value="Double">
                 </div>
             </form>
             <div id="room_list"></div>
         </div>
         <!-----------------------------------end of rooms----------------------------------------->
 
+        <!----------------------------------rooms II - manage_room--------------------------------->
+
+        <div class="requirement" id="manage_rooms_r">
+            <div>
+                <h2 class="back_btn">Back</h2>
+                <h2 style="display:inline-block">Room Details</h2>
+                <hr>
+            </div>
+
+            <h3 id="room_no" style="padding-left: 15px;"># 23</h3>
+
+            <p style="padding-left: 15px;">Room details,</p>
+            <form id="room_detail_div">
+                <label for="ROOMNO">Room No </label>
+                <input type="number" name="roomno" id="ROOMNO">
+                <br>
+                <label for="FLOOR">Floor </label>
+                <input type="number" name="floor" id="FLOOR">
+                <br>
+                <label for="PRIZE">Prize (Rs) </label>
+                <input type="number" name="prize" id="PRIZE">
+                <br>
+                <label>Size </label>
+                <select id="SIZE">
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                </select>
+                <br>
+                <label for="AC">AC </label>
+                <input type="radio" name="AC" id="AC">
+                <label for="NONE_AC">None AC </label>
+                <input type="radio" name="AC" id="NONE_AC">
+                <br>
+                <label for="DESCRIPTION">Description </label>
+                <input type="text" name="description" id="DESCRIPTION">
+            </form>
+
+            <h3 class="save_btn">Save & Exit</h3>
+            <h3 class="remove_btn">Remove</h3>
+
+        </div>
+        <!--------------------------------------end of manage rooms-------------------------------->
+
+        <!---------------------------------------users--------------------------------------------->
+
+        <div class="requirement" id="users_r">
+
+            <div>
+                <h2 class="back_btn">Back</h2>
+                <h2 style="display:inline-block">Users</h2>
+                <hr>
+            </div>
+
+            <div id="user_list"></div>
+
+        </div>
+        <!---------------------------------------end of users-------------------------------------->
+
+        <!---------------------------------------users--------------------------------------------->
+
+        <div class="requirement" id="manage_users_r">
+
+            <div>
+                <h2 class="back_btn">Back</h2>
+                <h2 style="display:inline-block">User Details</h2>
+                <hr>
+            </div>
+
+            <h3 id="user_name" style="padding-left: 15px;">User</h3>
+
+            <p style="padding-left: 15px;">Details,</p>
+            <form id="user_detail_div">
+                <label for="NAME">User Name</label>
+                <input type="text" name="user_name" id="NAME">
+                <br>
+                <label for="PASSWORD">Password </label>
+                <input type="password" name="password" id="PASSWORD">
+                <br>
+                <label for="FULLNAME">Full Name </label>
+                <input type="text" name="full_name" id="FULLNAME">
+                <br>
+                <label>Position </label>
+                <select id="POSITION">
+                    <option value="reception">Reception</option>
+                    <option value="manager">Admin</option>
+                </select>
+                <label for="EMPID">Employee ID </label>
+                <input type="text" name="full_name" id="EMPID">
+                <br>
+            </form>
+
+            <h3 class="save_btn">Save & Exit</h3>
+            <h3 class="remove_btn">Remove</h3>
+
+        </div>
+        <!---------------------------------------end of users-------------------------------------->
 
     </div>
 
@@ -312,6 +417,8 @@
 <script src="../script/general.js" type="text/javascript" charset="utf-8"></script>
 <script src="../library/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../script/receptionScript.js" type="text/javascript" charset="utf-8"></script>
+<script src="../script/adminScript.js" type="text/javascript" charset="utf-8"></script>
+<script src="../script/validation.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

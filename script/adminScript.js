@@ -21,7 +21,6 @@ function loadRooms() {
 
     roomList.length =0;
 
-
     var preStatement = "?q=getrooms&size="+roomSize+"&type="+roomType;
     connectDB("admin.php", preStatement, function(result) {
 
@@ -90,7 +89,6 @@ $("#rooms_r .back_btn").click(function() {
 });
 
 
-
 ////////////////////////////////////////////////////manage rooms////////////////////////////////////////////////////////
 
 function initManageRoom(room) {
@@ -106,34 +104,50 @@ function initManageRoom(room) {
         $("#PRIZE").val(0);
 
         $("#manage_rooms_r .save_btn").text("Save Room")
+        $("#manage_rooms_r .remove_btn").hide();
         $("#manage_rooms_r .save_btn").click(function() {
 
             var preStatement = "?q=roomexist&roomno=" + $("#ROOMNO").val();
             connectDB("admin.php", preStatement, function (result) {
 
                 if (result == '[]') {
+                    $("#manage_rooms_r input").prop("disabled", false);
+                    $("#manage_rooms_r select").prop("disabled", false);
 
-                    var roomno = $("#ROOMNO").val();
-                    var floor = $("#FLOOR").val();
-                    var prize = $("#PRIZE").val();
-                    var AC = $("#manage_rooms_r input[name='AC']:checked").attr('id');
-                    if(AC == "AC") {
-                        AC = 1;
-                    }else {
-                        AC = 0;
+                    var valid = false;
+                    if(numberValidate( $("#ROOMNO"), 100, "room number")){
+                        if(numberValidate( $("#FLOOR"), 10, "floor number")){
+                            if(numberValidate( $("#PRIZE"), 1000000, "room prize")){
+                                if(descriptionValidation($("#DESCRIPTION"), 100, false)){
+                                    valid = true;
+                                }
+                            }
+                        }
                     }
-                    var description = $("#DESCRIPTION").val();
-                    var size = $("#SIZE option:selected").val();
-                    /////////////////////////////////////////validate.................................................................
 
-                    var preStatement = "?q=addroom&roomno="+roomno+"&floor="+floor+"&size="+size+"&prize="
-                        +prize+"&AC="+AC+"&description="+description;
-                    connectDB("admin.php", preStatement, function(result) {
-                        console.log(result);
-                        $("#manage_rooms_r").hide();
-                        $("#rooms_r").show();
-                        initRooms();
-                    });
+                    if(valid) {
+                        var roomno = $("#ROOMNO").val();
+                        var floor = $("#FLOOR").val();
+                        var prize = $("#PRIZE").val();
+                        var AC = $("#manage_rooms_r input[name='AC']:checked").attr('id');
+                        if(AC == "AC") {
+                            AC = 1;
+                        }else {
+                            AC = 0;
+                        }
+                        var description = $("#DESCRIPTION").val();
+                        var size = $("#SIZE option:selected").val();
+                        /////////////////////////////////////////validate.................................................................
+
+                        var preStatement = "?q=addroom&roomno="+roomno+"&floor="+floor+"&size="+size+"&prize="
+                            +prize+"&AC="+AC+"&description="+description;
+                        connectDB("admin.php", preStatement, function(result) {
+                            console.log(result);
+                            $("#manage_rooms_r").hide();
+                            $("#rooms_r").show();
+                            initRooms();
+                        });
+                    }
 
                 }else {
                     alert("Room No already exits.")
@@ -159,29 +173,43 @@ function initManageRoom(room) {
         connectDB("admin.php", preStatement, function(result) {
 
             if(result == '[]') {
+                $("#manage_rooms_r input").prop("disabled", false);
+                $("#manage_rooms_r select").prop("disabled", false);
+                $("#manage_rooms_r .remove_btn").show();
 
                 $("#manage_rooms_r .save_btn").click(function() {
 
-                    var roomno = $("#ROOMNO").val();
-                    var floor = $("#FLOOR").val();
-                    var prize = $("#PRIZE").val();
-                    var AC = $("#manage_rooms_r input[name='AC']:checked").attr('id');
-                    if(AC == "AC") {
-                        AC = 1;
-                    }else {
-                        AC = 0;
+                    var valid = false;
+                    if(numberValidate( $("#ROOMNO"), 100, "room number")){
+                        if(numberValidate( $("#FLOOR"), 10, "floor number")){
+                            if(numberValidate( $("#PRIZE"), 1000000, "room prize")){
+                                if(descriptionValidation($("#DESCRIPTION"), 100, false)){
+                                    valid = true;
+                                }
+                            }
+                        }
                     }
-                    var description = $("#DESCRIPTION").val();
-                    var size = $("#SIZE option:selected").val();
+                    if(valid) {
+                        var roomno = $("#ROOMNO").val();
+                        var floor = $("#FLOOR").val();
+                        var prize = $("#PRIZE").val();
+                        var AC = $("#manage_rooms_r input[name='AC']:checked").attr('id');
+                        if(AC == "AC") {
+                            AC = 1;
+                        }else {
+                            AC = 0;
+                        }
+                        var description = $("#DESCRIPTION").val();
+                        var size = $("#SIZE option:selected").val();
 
-                    var preStatement = "?q=updateroom&oldno="+room.number+"&roomno="+roomno+"&floor="+floor+"&size="+size+"&prize="
-                        +prize+"&AC="+AC+"&description="+description;
-                    connectDB("admin.php", preStatement, function(result) {
-                        console.log(result);
-                        $("#manage_rooms_r").hide();
-                        $("#rooms_r").show();
-                        initRooms();
-                    });
+                        var preStatement = "?q=updateroom&oldno="+room.number+"&roomno="+roomno+"&floor="+floor+"&size="+size+"&prize="
+                            +prize+"&AC="+AC+"&description="+description;
+                        connectDB("admin.php", preStatement, function(result) {
+                            $("#manage_rooms_r").hide();
+                            $("#rooms_r").show();
+                            initRooms();
+                        });
+                    }
                 });
 
                 $("#manage_rooms_r .remove_btn").click(function(){
@@ -197,8 +225,9 @@ function initManageRoom(room) {
             }else {
                 $("#manage_rooms_r input").prop("disabled", true);
                 $("#manage_rooms_r select").prop("disabled", true);
+                $("#manage_rooms_r .remove_btn").hide();
 
-                $("#save_btn").click(function() {
+                $("#manage_rooms_r .save_btn").click(function() {
                     $("#manage_rooms_r").hide();
                     $("#rooms_r").show();
                     initRooms();
@@ -206,7 +235,6 @@ function initManageRoom(room) {
             }
         });
     }
-
 }
 
 
@@ -218,56 +246,66 @@ $("#manage_rooms_r .back_btn").click(function() {
 
 ////////////////////////////////////////////users///////////////////////////////////////////////////////////////////////
 
-// var userList = new Array();
-//
-//
+
 function initUsers() {
 
-    var currentUser = new User("Sampath", "LS", "Lahiru Sampath Vithanage", "admin", "A0002");
-    var userList = new Array();
-    $("#user_list").empty();
-
-    $("#user_list").append("<p>Your profile,</p>")
-    $("#user_list").append("<div class='user' id='profile'><h3>"+currentUser.name+"</h3>" +
-        "<p>"+currentUser.fullName+"</p></div>" +
-        "<p>Users,</p>");
-
-    var preStatement = "?q=getusers&name="+currentUser.name;
+    var preStatement = "?q=getuser&name="+name;
     connectDB("admin.php", preStatement, function(result) {
         if( result == "[]") return;
 
-        var rows = [];
-        rows = result.match(/[^{\}]+(?=})/g);
+        var data = result.match(/:"[\w. ,\d]+"/gi);
+        for(var i=0; i<data.length; i++) {
+            data[i] = data[i].substring(2,data[i].length-1);
+        }
+        var currentUser =new User(data[0],data[1],data[2],data[3],data[4]);
 
-        for (var i = 0; i < rows.length; i++) {
-            var data = rows[i].match(/:"[\w. ,\d]+"/gi);
-            for(var j=0; j<data.length; j++) {
-                data[j] = data[j].substring(2, data[j].length - 1)
+        var userList = new Array();
+        $("#user_list").empty();
+
+        $("#user_list").append("<p>Your profile,</p>")
+        $("#user_list").append("<div class='user' id='profile'><h3>"+currentUser.name+"</h3>" +
+            "<p>"+currentUser.fullName+"</p></div>" +
+            "<p>Users,</p>");
+
+        var preStatement = "?q=getusers&name="+currentUser.name;
+        connectDB("admin.php", preStatement, function(result) {
+            if( result == "[]") return;
+
+            var rows = [];
+            rows = result.match(/[^{\}]+(?=})/g);
+
+            for (var i = 0; i < rows.length; i++) {
+                var data = rows[i].match(/:"[\w. ,\d]+"/gi);
+                for(var j=0; j<data.length; j++) {
+                    data[j] = data[j].substring(2, data[j].length - 1)
+                }
+                userList.push(new User(data[0], data[1], data[2], data[3], data[4]));
             }
-            userList.push(new User(data[0], data[1], data[2], data[3], data[4]));
-        }
 
-        for (var i=0; i<userList.length; i++) {
-            var user = userList[i];
-            $("#user_list").append("<div class='user exist'><h3>"+user.name+"</h3>" +
-                "<p>"+user.fullName+"</p></div>");
-        }
+            for (var i=0; i<userList.length; i++) {
+                var user = userList[i];
+                $("#user_list").append("<div class='user exist'><h3>"+user.name+"</h3>" +
+                    "<p>"+user.fullName+"</p></div>");
+            }
 
-        $("#user_list").append("<div class='user' id='new_user'><h3>New User</h3></div>");
+            $("#user_list").append("<div class='user' id='new_user'><h3>New User</h3></div>");
 
-        $(".exist").click(function() {
-            console.log("user exist");
-            loadUserDetails(userList[$(this).index()-3], false);
-        });
-        $("#profile").click(function() {
-            console.log("my profile");
-            loadUserDetails(currentUser, true);
-        });
-        $("#new_user").click(function() {
-            console.log("add new user");
-            loadUserDetails(undefined, false)
+            $(".exist").click(function() {
+                console.log("user exist");
+                loadUserDetails(userList[$(this).index()-3], false);
+            });
+            $("#profile").click(function() {
+                console.log("my profile");
+                loadUserDetails(currentUser, true);
+            });
+            $("#new_user").click(function() {
+                console.log("add new user");
+                loadUserDetails(undefined, false)
+            });
         });
     });
+
+
 }
 
 
@@ -283,6 +321,7 @@ function loadUserDetails(user, editable) {
     $("#manage_users_r").show();
 
     if(user != undefined) {
+        $("#manage_users_r .remove_btn").show();
         console.log("my profile or existing user");
         $("#NAME").val(user.name);
         $("#PASSWORD").val(user.password);
@@ -302,21 +341,33 @@ function loadUserDetails(user, editable) {
             $("#manage_users_r .save_btn").text("Update & Exit");
             $("#manage_users_r .save_btn").click(function() {
 
-                var name = $("#NAME").val();
-                var password = $("#PASSWORD").val();
-                var fullName = $("#FULLNAME").val();
-                var empID = $("#EMPID").val();
-                var position = $("#POSITION option:selected").val();
-                var oldName = $("#user_name").text();
+                var valid = false;
+                if(nameValidation($("#NAME"), 30, true)){
+                    if(passwordValidate($("#PASSWORD"), 30, true)) {
+                        if(fullNameValidation($("#FULLNAME"), 80, false)) {
+                            if(empIDValidation($("#EMPID"), 10, true)) {
+                                valid = true;
+                            }
+                        }
+                    }
+                }
+                if(valid) {
+                    var name = $("#NAME").val();
+                    var password = $("#PASSWORD").val();
+                    var fullName = $("#FULLNAME").val();
+                    var empID = $("#EMPID").val();
+                    var position = $("#POSITION option:selected").val();
+                    var oldName = $("#user_name").text();
 
-                var preStatement = "?q=updateuser&oldname="+oldName+"&name="+name+"&password="+password
-                    +"&fullname="+fullName+"&empid="+empID+"&position="+position;
-                connectDB("admin.php", preStatement, function(result) {
-                    console.log(result);
-                    $("#manage_users_r").hide();
-                    $("#users_r").show();
-                    initUsers();
-                });
+                    var preStatement = "?q=updateuser&oldname="+oldName+"&name="+name+"&password="+password
+                        +"&fullname="+fullName+"&empid="+empID+"&position="+position;
+                    connectDB("admin.php", preStatement, function(result) {
+                        console.log(result);
+                        $("#manage_users_r").hide();
+                        $("#users_r").show();
+                        initUsers();
+                    });
+                }
             });
 
         }else {
@@ -346,6 +397,8 @@ function loadUserDetails(user, editable) {
 
     }else {
         console.log("new user");
+        $("#manage_users_r .remove_btn").hide();
+
         $("#NAME").prop("disabled",false);
         $("#PASSWORD").prop("disabled",false);
         $("#FULLNAME").prop("disabled",false);
@@ -364,21 +417,33 @@ function loadUserDetails(user, editable) {
             var preStatement = "?q=getuser&name="+$("#NAME").val();
             connectDB("admin.php", preStatement, function(result) {
 
-                var name = $("#NAME").val();
-                var password = $("#PASSWORD").val();
-                var fullName = $("#FULLNAME").val();
-                var empID = $("#EMPID").val();
-                var position = $("#POSITION option:selected").val();
+                var valid = false;
+                if(nameValidation($("#NAME"), 30, true)){
+                    if(passwordValidate($("#PASSWORD"), 30, true)) {
+                        if(fullNameValidation($("#FULLNAME"), 80, false)) {
+                            if(empIDValidation($("EMPID"), 10, true)) {
+                                valid = true;
+                            }
+                        }
+                    }
+                }
+                if(valid) {
+                    var name = $("#NAME").val();
+                    var password = $("#PASSWORD").val();
+                    var fullName = $("#FULLNAME").val();
+                    var empID = $("#EMPID").val();
+                    var position = $("#POSITION option:selected").val();
 
-                if(result == '[]') {
-                    var preStatement = "?q=adduser&name="+name+"&password="+password+"&fullname="+fullName+"&position="+position+"&empid="+empID;
-                    connectDB("admin.php", preStatement, function(result) {
-                        $("#manage_users_r").hide();
-                        $("#users_r").show();
-                        initUsers();
-                    });
-                }else {
-                    alert("User name is already taken.");
+                    if(result == '[]') {
+                        var preStatement = "?q=adduser&name="+name+"&password="+password+"&fullname="+fullName+"&position="+position+"&empid="+empID;
+                        connectDB("admin.php", preStatement, function(result) {
+                            $("#manage_users_r").hide();
+                            $("#users_r").show();
+                            initUsers();
+                        });
+                    }else {
+                        alert("User name is already taken.");
+                    }
                 }
             });
         });

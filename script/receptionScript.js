@@ -1,7 +1,24 @@
 /**
  * Created by Lahiru on 6/24/2017.
  */
+var name = undefined;
+var position = undefined;
+
 window.onload = function() {
+    var url = window.location.search;
+    var data = url.split("?");
+    name = data[1].split("=")[1];
+    position = data[2].split("=")[1];
+
+    if(position == 'reception') {
+        $("#users_m").hide();
+        $("#rooms_m").hide();
+    }else {
+        console.log(position);
+        $("#users_m").show();
+        $("#rooms_m").show();
+    }
+    $("#reception_menu").show();
 }
 
 ////////////////////////Receptions Menu/////////////////////////
@@ -23,14 +40,6 @@ $("#current_reserve_m").click(function() {
 });
 
 
-function initReservations() {
-    $("#current_reserve_r input[type='checkbox']").attr("checked",true);
-    $("#current_reserve_r #search_btn").val("");
-
-    loadCurrentReservations();
-}
-
-
 $("#rooms_m").click(function() {
     initRooms();
 
@@ -49,6 +58,12 @@ $("#users_m").click(function() {
 
 ///////////////////////New Reservation sub menu////////////////////////
 
+function initReservations() {
+    $("#current_reserve_r input[type='checkbox']").attr("checked",true);
+    $("#current_reserve_r #search_btn").val("");
+
+    loadCurrentReservations();
+}
 
 
 $("#new_reserve_r input[type='radio'], #new_reserve_r #check_out").change( loadAvailableRooms );
@@ -185,7 +200,7 @@ $("#reserve_room_r .back_btn").click(function(){
 /////////////////////new reservation sub menu - reserve selected room////////////
 
 
-var currentReserve = new Reservation("R0000", new Room().number,dateToString(new Date()),dateToString(new Date()));
+var currentReserve = new Reservation();
 
 
 function initReserveRoom(reservation) {
@@ -224,7 +239,6 @@ function initReserveRoom(reservation) {
         $("#reserve_detail").append("<p>Check In - "+reservation.checkIn+" , Check out - "+reservation.checkOut+"</p>");
 
     });
-
 
     $("#reserve_room_r input[id='stay_only_type']").attr("checked",true);
     $("#reserve_room_r input[id='none_veg']").attr("checked",true);
@@ -347,12 +361,16 @@ $("#reserve_room_r input[name='FIT/GRC']").change(function() {
         $("#payment_reserve #payed_value").keyup(function() {
             var text = $("#payed_value").val();
             if(isNaN(text.charAt(text.length-1))) {
-                $("#payed_value").val(text.substr(0,text.length-1));
+                $("#payed_value").val(text.substr(0, text.length - 1));
             }
 
+            if($("#payment_reserve #payed_value").val()=="") {
+                currentReserve.balance = currentReserve.totalFee;
+                $("#payment_reserve #balance_value").text(currentReserve.totalFee);
+                return;
+            }
             var payedValue = parseInt($("#payment_reserve #payed_value").val());
-            if(payedValue<0 || payedValue>currentReserve.balance){
-
+            if(payedValue<=0 || payedValue>currentReserve.totalFee){
                 $("#payment_reserve #payed_value").val("");
                 currentReserve.balance = currentReserve.totalFee;
                 $("#payment_reserve #balance_value").text(currentReserve.totalFee);
@@ -445,24 +463,15 @@ function checkInRoom() {
 
 
 function validateCustomerDetail() {
-    var valid = true;
-    if($("#reserve_room_r input[id='customer_name']").val().length == 0) {
-        $("#reserve_room_r label[for='customer_name']").css("color", "red");
-        alert("Provide Customer Name");
-        valid = false;
-    }
-    console.log($("#reserve_room_r input[id='customer_ID']").val());
-    console.log($("#reserve_room_r input[id='customer_VISA']").val());//....................handle errors..................................................
-    if( ($("#reserve_room_r input[id='customer_ID']").val().length == 0) && ($("#reserve_room_r input[id='customer_VISA']").val().length == 0) ) {
-        $("#reserve_room_r label[for='customer_ID']").css("color", "red");
-        $("#reserve_room_r label[for='customer_VISA']").css("color", "red");
-        alert("Provide customer ID or VISA");
-        valid = false;
-    }
-    if($("#reserve_room_r input[id='customer_phone']").val().length == 0) {
-        $("#reserve_room_r label[for='customer_phone']").css("color", "red");
-        alert("Provide Customer telephone number");
-        valid = false;
+    var valid = false;
+    if(fullNameValidation($("#reserve_room_r input[id='customer_name']"),99, true)) {
+        if(addressValidation($("#reserve_room_r input[id='customer_add']"),99, false)) {
+            if(visaValidation($("#reserve_room_r input[id='customer_VISA']"),$("#reserve_room_r input[id='customer_ID']"),15)){
+                if(telephoneValidation($("#reserve_room_r input[id='customer_phone']"),11, true)) {
+                    valid = true;
+                }
+            }
+        }
     }
     return valid;
 }
@@ -487,6 +496,9 @@ function loadCurrentReservations() {
     connectDB("reception.php", preStatement, function(result) {
 
         if(result == "[]") return;
+        currReserves.length = 0;
+        var reserveContainer = $("#current_reserve_r #reserve_container");
+        reserveContainer.empty();
 
         var reserves = [];
         reserves = result.match(/[^{\}]+(?=})/g);
@@ -623,14 +635,24 @@ function initManageReservations(reservation) {
 
         $("#next_status").click(nextReservationStatus);
         $("#save_reserve").click(saveReservationChanges);
-        $("#manage_reserve_r #make_payment").click(makePayment);
+        $("#manage_reserve_r #make_payment").click(function() {
+            if(paymentValidate($("#manage_reserve_r #payment_div input[type='text']"), true)) {
+                makePayment();
+            }
+        });
 
         if(currentReserve.status == "Reserved") {
             $("#cancel_reserve").show();
             $("#cancel_reserve").click(function() {
 
                 var preStatement = "?q=cancelreserve&resid=" + currentReserve.resID + "&custid=" + currentReserve.customerID;
-                connectDB("reception.php", preStatement, function (result) {});
+                connectDB("reception.php", preStatement, function (result) {
+                    initReservations();
+
+                    var currReserves = $("#current_reserve_r");
+                    $("#manage_reserve_r").hide();
+                    currReserves.show();
+                });
             });
         }else {
             $("#cancel_reserve").hide();
@@ -654,24 +676,37 @@ $("#manage_reserve_r input[name='meal_pre']").change(changeMealFee);
 
 function saveReservationChanges() {
 
-    currentCustomer.name = $("#manage_reserve_r input[name='customer_name']").val();
-    currentCustomer.NID = $("#manage_reserve_r input[name='customer_ID']").val();
-    currentCustomer.VISA = $("#manage_reserve_r input[name='customer_VISA']").val();
-    currentCustomer.address = $("#manage_reserve_r input[name='customer_add']").val();
-    currentCustomer.telephone = $("#manage_reserve_r input[name='customer_telephone']").val();
+    var valid = false;
+    if(fullNameValidation($("#manage_reserve_r input[name='customer_name']"),99, true)) {
+        if(addressValidation($("#manage_reserve_r input[name='customer_add']"),99, false)) {
+            if(visaValidation($("#manage_reserve_r input[name='customer_VISA']"),$("#manage_reserve_r input[name='customer_ID']"),15)){
+                if(telephoneValidation($("#manage_reserve_r input[name='customer_telephone']"),11, true)) {
+                    valid = true;
+                }
+            }
+        }
+    }
 
-    var preStatement = "?q=updatereserve&resid="+currentReserve.resID+"&totalfee="+currentReserve.totalFee+"&balance="+
+    if(valid) {
+        currentCustomer.name = $("#manage_reserve_r input[name='customer_name']").val();
+        currentCustomer.NID = $("#manage_reserve_r input[name='customer_ID']").val();
+        currentCustomer.VISA = $("#manage_reserve_r input[name='customer_VISA']").val();
+        currentCustomer.address = $("#manage_reserve_r input[name='customer_add']").val();
+        currentCustomer.telephone = $("#manage_reserve_r input[name='customer_telephone']").val();
+
+        var preStatement = "?q=updatereserve&resid="+currentReserve.resID+"&totalfee="+currentReserve.totalFee+"&balance="+
             currentReserve.balance+"&status="+currentReserve.status+
             "&mealtype="+currentMeal.typee+"&mealpre="+currentMeal.pre+"&name="+currentCustomer.name+"&NID="+currentCustomer.NID+
             "&VISA="+currentCustomer.VISA+"&address="+currentCustomer.address+"&telephone="+currentCustomer.telephone+
             "&custid="+currentCustomer.custID;
-    connectDB("reception.php", preStatement, function(result) {});
+        connectDB("reception.php", preStatement, function(result) {});
 
-    initReservations();
+        initReservations();
 
-    var currReserves = $("#current_reserve_r");
-    $("#manage_reserve_r").hide();
-    currReserves.show();
+        var currReserves = $("#current_reserve_r");
+        $("#manage_reserve_r").hide();
+        currReserves.show();
+    }
 }
 
 
@@ -737,12 +772,13 @@ function changeMealFee() {
 
 
 function makePayment() {
-    var toPay = currentReserve.totalFee - currentReserve.balance;
+    var toPay = currentReserve.balance;
     var newPayment = parseInt($("#manage_reserve_r #payment_div input[type='text']").val());
     if(toPay < newPayment) {
         alert("Only Rs."+toPay+" need to paid. Extra charges won't be calculated.");
         newPayment = toPay;
     }
+    $("#manage_reserve_r #payment_div input[type='text']").val("");
     currentReserve.balance -= newPayment;
 
     $("#manage_reserve_r #payed_value").text(currentReserve.totalFee - currentReserve.balance);
